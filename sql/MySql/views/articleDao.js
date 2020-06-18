@@ -1,27 +1,8 @@
-var mongoose = require('../hp_MongoDbBase');
+const pool = require('../hp_mySql');
 
-// 设计表结构
-var Article = new mongoose.Schema({
-    articleId: String,
-    articleName: String,
-    articleContent: String,
-    zone:String,
-    articleAuthor:String,
-    creatDate: {
-        type: Date,
-        required: true,
-        default: Date.now
-    },
-    read:{
-        type: Number,
-        required: true,
-        default: 0
-    },
 
-});
+const tableName = 'hp_my_blog.article';
 
-// 创建/指定表   第一个参数是表的名称(mongodb会将大写名称改成小写后加s) 第二个参数是表结构
-var Article = mongoose.model('Article', Article);
 
 let Handle = {
     /**
@@ -112,5 +93,3 @@ let Handle = {
        })
    }
 }
-
-module.exports = Handle;

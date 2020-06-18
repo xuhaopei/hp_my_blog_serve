@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+mongoose.set('useFindAndModify', false)
 mongoose.connect('mongodb://localhost/hp_my_blog', {
     useNewUrlParser: true,
     useUnifiedTopology: true 

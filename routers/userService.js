@@ -6,8 +6,8 @@ const User = require('../sql/MongoDb/views/userDao');       // 引用mongoDB
 
 const router = epxress.Router();
 
-router.post('/user/register',(req,res,next)=>{
-
+router.post('/user/login',(req,res,next)=>{
+    
     User.query(req.body.username,req.body.password,(err,data)=>{
         if(err) {
             next(err); 
@@ -31,7 +31,7 @@ router.post('/user/register',(req,res,next)=>{
     })
 })
 
-router.post('/user/login',(req,res,next)=>{
+router.post('/user/register',(req,res,next)=>{
     User.addOne(req.body.username,req.body.email,req.body.password,(err,data)=>{
         if(err) {
             next(err);
