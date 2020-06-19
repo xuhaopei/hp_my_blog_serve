@@ -12,7 +12,7 @@ let Handle = {
      * @param {String} name 
      * @param {Number} articleId 
      */
-    addOne(pid,path,name,articleId=0) {
+    addOne(pid,path,name,articleId,callback) {
         let sql = `INSERT INTO ${tableName} (pid,path,name,articleId) VALUES ('${pid}','${path}','${name}','${articleId}')`;
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
@@ -27,7 +27,7 @@ let Handle = {
      * @param {*} path 
      * @param {*} name 
      */
-    updateOne(id,path,name) {
+    updateOne(id,path,name,articleId,callback) {
         let sql = `UPDATE ${tableName} SET  path='${path}', name='${name}' WHERE id='${id}'`;
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
@@ -40,8 +40,8 @@ let Handle = {
      * 根据id删除目录或者文章
      * @param {*} id 
      */
-    deleteOne(id) {
-        let sql = `DELETE FROM ${tableName} WHERE id='${id}'`;
+    deleteOne(id,callback) {
+        let sql = `DELETE FROM ${tableName} WHERE path like '%${id}%'`;
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
                 callback(err,data);

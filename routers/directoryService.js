@@ -25,10 +25,45 @@ router.post('/Directory/updateDirectory',(req,res,next)=>{
             next(err); 
         }
         res.status(200);
+        console.log(data);
         res.json(data);
     })
 })
 
+router.post('/Directory/createDirectory',(req,res,next)=>{
+    let array = req.body;
+    // 创建目录，顺便更新目录。
+    Directory.addOne(...array,(err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        console.log(data)
+        array[0] = data.insertId;
+        array[1] = array[1] + '/' + data.insertId;
+        Directory.updateOne(...array,(err,data)=>{
+            if(err) {
+                next(err); 
+            }
+            res.status(200);
+            console.log(data);
+            res.json(data);
+        })
+    })
+
+})
+
+router.post('/Directory/deleteDirectory',(req,res,next)=>{
+    let array = req.body;
+    // 删除目录，顺便所有文章。
+    Directory.deleteOne(...array,(err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        res.status(200);
+        res.json(data);
+    })
+
+})
 /**
  * 将数据库的目录数组封装成树图形
  * @param {*} data 
@@ -42,10 +77,10 @@ function initDirectorData(data){
         let one;
         hadInsert = false;
         if(iterator.articleId === 0) {
-            one = new Directory(iterator.name,iterator.id,iterator.path);
+            one = new Directory(iterator.id,iterator.pid,iterator.path,iterator.name);
         }
         else {
-            one = new Artilce(iterator.articleId,iterator.name,iterator.path);
+            one = new Artilce(iterator.id,iterator.pid,iterator.path,iterator.name);
         }
         /**判断one能否插入目录中，不能则插入array */
         for (const obj of array) {
@@ -60,32 +95,34 @@ function initDirectorData(data){
         
     }
     return array;
-    function Artilce(articleId,articleName,path){
-        this.articleId = articleId;
-        this.articleName = articleName;
+    function Artilce(id,pid,path,name){
+        this.id = id;
+        this.pid = pid;
         this.path = path;
+        this.name = name;
     }
-    function Directory(title,titleId,path){
-        this.title = title;
-        this.titleId = titleId;
-        this.smallItems = [[]];
+    function Directory(id,pid,path,name){
+        this.id = id;
+        this.pid = pid;
+        this.name = name;
         this.path = path;
+        this.childrens = [[]];
     }
     function digui(parentObj,sonObj,flag) {
         let parentPath = parentObj.path;                            
-        let sonPath = sonObj.path.substring(0,sonObj.path.length-2);
+        let sonPath = sonObj.path.substring(0,sonObj.path.lastIndexOf('/'));
         /**如果sonPath截取部分跟parentPath一样，说明sonObj要插入到这个目录中*/
         if(parentPath === sonPath) {
             if(flag === 0) {
-                parentObj.smallItems[parentObj.smallItems.length - 1].push(sonObj);
+                parentObj.childrens[parentObj.childrens.length - 1].push(sonObj);
             }
             else {
-                parentObj.smallItems.unshift(sonObj);
+                parentObj.childrens.unshift(sonObj);
             }
             return true;
         }
         else {
-            for (const iterator of parentObj.smallItems[parentObj.smallItems.length - 1]) {
+            for (const iterator of parentObj.childrens[parentObj.childrens.length - 1]) {
                 return digui(iterator,sonObj,flag);
             }
         }
