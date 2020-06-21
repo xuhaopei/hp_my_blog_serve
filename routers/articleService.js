@@ -1,11 +1,12 @@
 const epxress = require('express');
 
-const Article = require('../sql/MongoDb/views/articleDao');
+const Article = require('../sql/MySql/views/articleDao');
 
 const router = epxress.Router();
 
 router.post('/Article/add',(req,res,next)=>{
     let array = req.body;
+    console.log(array);
     // 这里必须用...array 因为你不能确定客户端传递过来的值。
     Article.addOne(...array,(err,data)=>{
         if(err) {
@@ -18,8 +19,8 @@ router.post('/Article/add',(req,res,next)=>{
 
 router.get('/Article/find',(req,res,next)=>{
     let query = req.query;
-    let articleId = query.articleId;
-    Article.query(articleId,(err,data)=>{
+    let id = query.id;
+    Article.query(id,(err,data)=>{
         if(err) {
             next(err); 
         }
@@ -59,6 +60,19 @@ router.post('/Article/update',(req,res,next)=>{
         }
         res.status(200);
         res.send('更新文章成功！');
+    })
+})
+
+router.get('/Article/updateRead',(req,res,next)=>{
+    let query = req.query;
+    let id = query.id;
+    let read = query.read;
+    Article.updateOneRead(id,read,(err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        res.status(200);
+        res.send('更新阅读次数成功！');
     })
 })
 

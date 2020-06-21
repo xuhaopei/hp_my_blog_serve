@@ -26,6 +26,8 @@ let Handle = {
      * @param {*} id 
      * @param {*} path 
      * @param {*} name 
+     * @param {*} articleId 
+     * @param {*} callback 
      */
     updateOne(id,path,name,articleId,callback) {
         let sql = `UPDATE ${tableName} SET  path='${path}', name='${name}' WHERE id='${id}'`;

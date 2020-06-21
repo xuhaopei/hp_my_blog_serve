@@ -80,7 +80,7 @@ function initDirectorData(data){
             one = new Directory(iterator.id,iterator.pid,iterator.path,iterator.name);
         }
         else {
-            one = new Artilce(iterator.id,iterator.pid,iterator.path,iterator.name);
+            one = new Artilce(iterator.id,iterator.pid,iterator.path,iterator.name,iterator.articleId);
         }
         /**判断one能否插入目录中，不能则插入array */
         for (const obj of array) {
@@ -95,11 +95,12 @@ function initDirectorData(data){
         
     }
     return array;
-    function Artilce(id,pid,path,name){
+    function Artilce(id,pid,path,name,articleId){
         this.id = id;
         this.pid = pid;
         this.path = path;
         this.name = name;
+        this.articleId = articleId;
     }
     function Directory(id,pid,path,name){
         this.id = id;

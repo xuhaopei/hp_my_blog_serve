@@ -1,8 +1,8 @@
 const epxress = require('express');
 const jwt = require('jsonwebtoken');
 
-const User = require('../sql/MongoDb/views/userDao');       // 引用mongoDB
-//const User = require('../sql/MySql/views/userDao');
+//const User = require('../sql/MongoDb/views/userDao');       // 引用mongoDB
+const User = require('../sql/MySql/views/userDao');
 
 const router = epxress.Router();
 
