@@ -3,6 +3,7 @@ const epxress = require('express');
 //const Directory = require('../sql/MongoDb/views/directoryDao');
 
 const Directory = require('../sql/MySql/views/directoryDao');
+const Article = require('../sql/MySql/views/articleDao');
 
 const router = epxress.Router();
 
@@ -25,7 +26,6 @@ router.post('/Directory/updateDirectory',(req,res,next)=>{
             next(err); 
         }
         res.status(200);
-        console.log(data);
         res.json(data);
     })
 })
@@ -37,7 +37,6 @@ router.post('/Directory/createDirectory',(req,res,next)=>{
         if(err) {
             next(err); 
         }
-        console.log(data)
         array[0] = data.insertId;
         array[1] = array[1] + '/' + data.insertId;
         Directory.updateOne(...array,(err,data)=>{
@@ -59,8 +58,10 @@ router.post('/Directory/deleteDirectory',(req,res,next)=>{
         if(err) {
             next(err); 
         }
-        res.status(200);
-        res.json(data);
+        Article.deleteOneByPid(array[0],(err,data)=>{
+            res.status(200);
+            res.json(data);
+        })
     })
 
 })

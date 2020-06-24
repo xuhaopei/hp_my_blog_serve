@@ -1,7 +1,6 @@
 const pool = require('../hp_mySql');
-const { model } = require('mongoose');
 
-
+let format = require('date-format');
 const tableName = 'hp_my_blog.article';
 
 
@@ -30,7 +29,21 @@ let Handle = {
      * @param {Function} callback    回调函数接收2个参数 
      */
     deleteOne(id, callback) {
-        let sql = `DELETE FROM ${tableName} WHERE id='%${id}%'`;
+        let sql = `DELETE FROM ${tableName} WHERE id='${id}'`;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        }); 
+    },
+    /**
+     * 根据文章ID删除一篇文章
+     * @param {Number} pid            文章目录ID
+     * @param {Function} callback    回调函数接收2个参数 
+     */
+    deleteOneByPid(pid, callback) {
+        let sql = `DELETE FROM ${tableName} WHERE pid='${pid}'`;
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
                 callback(err,data);
@@ -43,12 +56,27 @@ let Handle = {
      * @param {String} articleId        文章ID
      * @param {String} articleName      文章标题
      * @param {String} articleContent   文章内容
-     * @param {String} author           文章作者
      * @param {String} tags             标签
      * @param {Function} callback       回调函数接收2个参数 
      */
-    updateOne(id, articleName, articleContent, author, tags, callback) {
-        let sql = `UPDATE ${tableName} SET  articleName='${articleName}', articleContent='${articleContent}', author='${author}', tags='${tags}' WHERE id='${id}'`;
+    updateOne(id, articleName, articleContent, tags, callback) {
+
+        let alertDate = format.asString();
+        let sql = `
+        update
+        hp_my_blog.directors, 
+        hp_my_blog.article 
+        set 
+        hp_my_blog.directors.name='${articleName}',
+        hp_my_blog.article.articleName='${articleName}',
+        hp_my_blog.article.articleContent = '${articleContent}',
+        hp_my_blog.article.alertDate = '${alertDate}',
+        hp_my_blog.article.tags = '${tags}'
+        where 
+        hp_my_blog.article.id='${id}'
+        and
+        hp_my_blog.article.id=hp_my_blog.directors.articleId;
+        `;
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
                 callback(err,data);
@@ -57,9 +85,9 @@ let Handle = {
         });
     },
     /**
-     * 根据文章ID更新一篇文章
+     * 根据文章ID更新文章阅读次数
      * @param {Number} articleId        文章ID
-     * @param {Number} articleName      文章标题
+     * @param {Number} read             阅读次数
      */
     updateOneRead(id, read) {
         let sql = `UPDATE ${tableName} SET  read='${read}' WHERE id='${id}'`;

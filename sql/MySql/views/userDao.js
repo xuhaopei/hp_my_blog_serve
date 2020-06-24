@@ -14,7 +14,6 @@ const tableName = 'hp_my_blog.user';
  */
 User.addOne = function(userName,email,password,callback){
     let sql = `INSERT INTO hp_my_blog.user (userName,email,password) VALUES ('${userName}','${email}','${password}')`;
-    console.log(sql)
     pool.getConnection((err,conn)=>{
         conn.query(sql,(err,data)=>{
             callback(err,data);
@@ -49,7 +48,6 @@ User.updateOne = function(findObj,updateObj,callback) {
 
 User.query = function(userName,password,callback) {
     let sql = `SELECT * FROM  user WHERE binary userName = '${userName}' AND binary password = '${password}'`;
-    console.log(sql)
     pool.getConnection((err,conn)=>{
         conn.query(sql,(err,data)=>{
             callback(err,data);

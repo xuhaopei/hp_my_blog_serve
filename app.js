@@ -4,6 +4,7 @@ const app = express();
 // 引入第三方插件
 const bodyParser = require('body-parser');
 const session = require('express-session')
+const cookieParser = require("cookie-parser");
 const cors = require('cors');                       
 
 
@@ -11,11 +12,19 @@ const cors = require('cors');
 const userService = require('./routers/userService');
 const directoryService = require('./routers/directoryService');
 const apiArticleService = require('./routers/articleService');
+const filter = require('./filter/baseFilter');
 
 // 使用中间件
 app.use(bodyParser.json());                             // 当post请求时，里面的参数可以通过req.body()获取一个对象
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());                                        // 当请求跨域时，允许获取资源
+// app.use(cors({                          // 当请求跨域时，如果要设置身份验证 需要用到这个配置选项
+//     credentials: true, 
+//     origin: 'http://192.168.0.130:8080', //指定跨域资源只有这个地址可以获取。
+// }));    
+app.use(cors());    
+
+app.use(cookieParser());
+
 app.use(session({                       // 设置登录的验证方式之一 session 另外一种是token
     secret: 'keyboard cat',             // 用于数字签名 必须要
     resave: false,                      // 即使session没有被修改，也保存session值，默认为true
@@ -28,13 +37,13 @@ app.use(session({                       // 设置登录的验证方式之一 ses
     }
 }))
 
-// 测试
-
 
 // 使用API接口
+app.use(filter);
 app.use(userService);
 app.use(directoryService);
 app.use(apiArticleService);
+// 测试
 
 app.set('trust proxy', 1) // trust first proxy
 

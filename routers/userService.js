@@ -1,8 +1,8 @@
 const epxress = require('express');
-const jwt = require('jsonwebtoken');
 
 //const User = require('../sql/MongoDb/views/userDao');       // 引用mongoDB
 const User = require('../sql/MySql/views/userDao');
+const hp_jwt  = require('../validate/token');
 
 const router = epxress.Router();
 
@@ -16,7 +16,6 @@ router.post('/user/login',(req,res,next)=>{
             return res.status(404).json(0);
         }
         for (const one of data) {
-            console.log(one);
             let user = {
                 userId     : one.userId,
                 userName   : one.userName,
@@ -24,8 +23,9 @@ router.post('/user/login',(req,res,next)=>{
                 authority  : one.authority,
                 creatDate  : one.creatDate
             }
-            let token = jwt.sign(user,'xhp');
-            res.status(201);
+            let token = hp_jwt.createToken(user);
+            //res.setHeader('Access-Control-Allow-Credentials','true');
+            //res.setHeader('Set-Cookie', ['name=xhp','httpOnly=false','Expires=Wed, 09 Jun 2021 10:18:14 GMT','path=/','domain=http://192.168.0.130:8080']);       
             return res.send({token,user});
         }
     })

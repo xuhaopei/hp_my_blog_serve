@@ -52,6 +52,19 @@ let Handle = {
         });        
     },
     /**
+     * 根据articleId删除目录里的文章
+     * @param {*} articleId 
+     */
+    deleteOnByAriticleId(articleId,callback) {
+        let sql = `DELETE FROM ${tableName} WHERE articleId=${articleId}`;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });        
+    },
+    /**
      * 查询所有目录信息
      * @param {Function} callback      回调函数接收2个参数 
      */

@@ -1,6 +1,7 @@
 const epxress = require('express');
 
 const Article = require('../sql/MySql/views/articleDao');
+const Directory = require('../sql/MySql/views/directoryDao');
 
 const router = epxress.Router();
 
@@ -79,6 +80,11 @@ router.get('/Article/updateRead',(req,res,next)=>{
 router.get('/Article/delete',(req,res,next)=>{
     let query = req.query;
     let articleId = query.articleId;
+    Directory.deleteOnByAriticleId(articleId,(err,data)=>{
+        if(err) {
+            next(err); 
+        }
+    });
     Article.deleteOne(articleId,(err,data)=>{
         if(err) {
             next(err); 
@@ -86,5 +92,6 @@ router.get('/Article/delete',(req,res,next)=>{
         res.status(200);
         res.send('删除文章成功！');
     })
+
 })
 module.exports = router;
