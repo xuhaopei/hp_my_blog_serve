@@ -1,17 +1,38 @@
-const hp_jwt  = require('../validate/token');
+const hp_jwt = require('../validate/token');
 
-module.exports = function(req, res, next){
+module.exports = function (req, res, next) {
     let url = req.url;
-    if(url !== '/user/login') {
-        let token = req.headers.token;
-        console.log(token)
-        if(hp_jwt.validateToken(token) == false) {
-            res.status(401);
-            console.log('?????');
-            return;
-            //res.send('无效的身份，请重新登录');
-        }
-    }
+    
+    // 针对get请求 做处理
+    let length =  url.indexOf('?');
+    url = (length == -1) ? url : url.substring(0,length);
 
-    next();
+    switch (url) {
+        // 这些不需要验证token
+        case '/user/login':
+            next();
+            break;
+        case '/user/register':
+            next();
+            break;
+        case '/Directory/getAllDirectory':
+            next();
+            break;
+        case '/Article/find':
+            next();
+            break;
+        case '/Article/findAll':
+            next();
+            break;
+            
+        // 其它默认需要验证token
+        default:
+            let token = req.headers.token;
+            if (hp_jwt.validateToken(token) == false) {
+                res.status(401);
+                res.json('出错了呀~');
+                return;
+            }
+
+    }
 }

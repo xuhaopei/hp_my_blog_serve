@@ -20,7 +20,6 @@ Token.prototype.validateToken = function(token){
         let decoded = jwt.verify(token, this.privateKey);
         result = true;
     } catch(err) {
-        // err
         result = false;
     }
     return result;

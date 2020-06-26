@@ -14,6 +14,8 @@ router.get('/Directory/getAllDirectory',(req,res,next)=>{
             next(err); 
         }
         res.status(200);
+        //res.setHeader('Content-type','text/plain');
+        //res.setHeader('Set-Cookie', ['name=xhp','Expires=Wed, 09 Jun 2021 10:18:14 GMT']);  
         let newData =  initDirectorData(data);
         res.json(newData);
     })

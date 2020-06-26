@@ -7,8 +7,6 @@ const router = epxress.Router();
 
 router.post('/Article/add',(req,res,next)=>{
     let array = req.body;
-    console.log(array);
-    // 这里必须用...array 因为你不能确定客户端传递过来的值。
     Article.addOne(...array,(err,data)=>{
         if(err) {
             next(err); 

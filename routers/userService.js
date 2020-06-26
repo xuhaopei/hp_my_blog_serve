@@ -13,7 +13,7 @@ router.post('/user/login',(req,res,next)=>{
             next(err); 
         }
         if(data.length === 0) {
-            return res.status(404).json(0);
+            return res.status(404).json('查无此人嗷');
         }
         for (const one of data) {
             let user = {
@@ -25,7 +25,9 @@ router.post('/user/login',(req,res,next)=>{
             }
             let token = hp_jwt.createToken(user);
             //res.setHeader('Access-Control-Allow-Credentials','true');
-            //res.setHeader('Set-Cookie', ['name=xhp','httpOnly=false','Expires=Wed, 09 Jun 2021 10:18:14 GMT','path=/','domain=http://192.168.0.130:8080']);       
+            //res.setHeader('Content-type','text/plain');
+            //res.setHeader('Set-Cookie', ['name=xhp','Expires=Wed, 09 Jun 2021 10:18:14 GMT']);  
+            res.status(200);     
             return res.send({token,user});
         }
     })
