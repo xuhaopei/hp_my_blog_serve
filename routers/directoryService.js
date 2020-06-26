@@ -46,7 +46,6 @@ router.post('/Directory/createDirectory',(req,res,next)=>{
                 next(err); 
             }
             res.status(200);
-            console.log(data);
             res.json(data);
         })
     })

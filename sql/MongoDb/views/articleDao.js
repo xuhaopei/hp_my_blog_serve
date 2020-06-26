@@ -82,7 +82,6 @@ let Handle = {
         }
         let query = Article.where(findObj);
         query.findOneAndUpdate(updateObj, (err, data) => {
-            console.log(data)
             callback(err, data);
         })
     },

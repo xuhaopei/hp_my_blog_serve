@@ -34,6 +34,19 @@ router.get('/Article/find',(req,res,next)=>{
     })
 })
 
+router.get('/Article/query',(req,res,next)=>{
+    let query = req.query;
+    let content = query.content;
+    Article.likeQuery(content,(err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        else {
+            res.status(200);
+            res.json(data);
+        }
+    })
+})
 router.get('/Article/findAll',(req,res,next)=>{
 
     Article.queryAll((err,data)=>{

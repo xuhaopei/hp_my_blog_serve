@@ -38,7 +38,7 @@ let Handle = {
         }); 
     },
     /**
-     * 根据文章ID删除一篇文章
+     * 根据目录ID删除文章
      * @param {Number} pid            文章目录ID
      * @param {Function} callback    回调函数接收2个参数 
      */
@@ -99,6 +99,23 @@ let Handle = {
         });
     },
     /**
+     * 根据content模糊查询文章的标题，标签，文章内容。
+     * @param {String} content             
+     * @param {Function} callback       回调函数接收2个参数 
+     */
+    likeQuery(content, callback) {
+        let sql = `
+            SELECT * FROM hp_my_blog.article 
+            WHERE CONCAT(IFNULL(articleName,''),IFNULL(articleContent,''),IFNULL(author,''),IFNULL(tags,'')) 
+            LIKE '%${content}%'`;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });        
+    },
+    /**
      * 根据文章ID查找一篇文章
      * @param {Number} id        文章ID
      * @param {Function} callback       回调函数接收2个参数 
@@ -124,8 +141,7 @@ let Handle = {
                 callback(err,data);
             })
             conn.release();
-        });
-        
+        }); 
    }
 }
 module.exports = Handle;
