@@ -4,10 +4,12 @@ const epxress = require('express');
 
 const Directory = require('../sql/MySql/views/directoryDao');
 const Article = require('../sql/MySql/views/articleDao');
+const apiRouter = require('./baseRouter');
 
+const routerPath = apiRouter.directoryService;
 const router = epxress.Router();
 
-router.get('/Directory/getAllDirectory',(req,res,next)=>{
+router.get(routerPath.findAll,(req,res,next)=>{
     Directory.query((err,data)=>{
         if(err) {
             console.log(err)
@@ -21,7 +23,7 @@ router.get('/Directory/getAllDirectory',(req,res,next)=>{
     })
 })
 
-router.post('/Directory/updateDirectory',(req,res,next)=>{
+router.post(routerPath.update,(req,res,next)=>{
     let array = req.body;
     Directory.updateOne(...array,(err,data)=>{
         if(err) {
@@ -32,7 +34,7 @@ router.post('/Directory/updateDirectory',(req,res,next)=>{
     })
 })
 
-router.post('/Directory/createDirectory',(req,res,next)=>{
+router.post(routerPath.add,(req,res,next)=>{
     let array = req.body;
     // 创建目录，顺便更新目录。
     Directory.addOne(...array,(err,data)=>{
@@ -52,7 +54,7 @@ router.post('/Directory/createDirectory',(req,res,next)=>{
 
 })
 
-router.post('/Directory/deleteDirectory',(req,res,next)=>{
+router.post(routerPath.delete,(req,res,next)=>{
     let array = req.body;
     // 删除目录，顺便所有文章。
     Directory.deleteOne(...array,(err,data)=>{

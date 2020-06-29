@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 function Token(){
     this.privateKey = 'xhp';
-    this.validateTime = 60*60;
+    this.validateTime = 60*60*24*365;              // 设置token时间为一个小时 * 24 * 365
 }
 Token.prototype.createToken = function(data){
     let token = jwt.sign(

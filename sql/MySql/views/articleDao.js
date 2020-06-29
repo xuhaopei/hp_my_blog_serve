@@ -14,10 +14,12 @@ let Handle = {
      * @param {Function} callback       回调函数接收2个参数 
      */
     addOne(pid, articleName, articleContent,author,tags,callback) {
-        let sql = `INSERT INTO ${tableName} (pid,articleName,articleContent,author,tags) VALUES ('${pid}','${articleName}','${articleContent}','${author}','${tags}')`;
-        
+
+        let sql = `INSERT INTO ${tableName} (pid,articleName,articleContent,author,tags) VALUES (?,?,?,?,?)`;
+
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+        
+            conn.query(sql,[pid, articleName, articleContent,author,tags],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -29,9 +31,12 @@ let Handle = {
      * @param {Function} callback    回调函数接收2个参数 
      */
     deleteOne(id, callback) {
-        let sql = `DELETE FROM ${tableName} WHERE id='${id}'`;
+
+        let sql = `DELETE FROM ${tableName} WHERE id=?`;
+
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            
+            conn.query(sql,[id],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -43,9 +48,9 @@ let Handle = {
      * @param {Function} callback    回调函数接收2个参数 
      */
     deleteOneByPid(pid, callback) {
-        let sql = `DELETE FROM ${tableName} WHERE pid='${pid}'`;
+        let sql = `DELETE FROM ${tableName} WHERE pid=?`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            conn.query(sql,[pid],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -60,25 +65,24 @@ let Handle = {
      * @param {Function} callback       回调函数接收2个参数 
      */
     updateOne(id, articleName, articleContent, tags, callback) {
-
         let alertDate = format.asString();
         let sql = `
         update
         hp_my_blog.directors, 
         hp_my_blog.article 
         set 
-        hp_my_blog.directors.name='${articleName}',
-        hp_my_blog.article.articleName='${articleName}',
-        hp_my_blog.article.articleContent = '${articleContent}',
-        hp_my_blog.article.alertDate = '${alertDate}',
-        hp_my_blog.article.tags = '${tags}'
+        hp_my_blog.directors.name = ?,
+        hp_my_blog.article.articleName = ?,
+        hp_my_blog.article.articleContent = ?,
+        hp_my_blog.article.alertDate = ?,
+        hp_my_blog.article.tags = ?
         where 
-        hp_my_blog.article.id='${id}'
+        hp_my_blog.article.id = ?
         and
         hp_my_blog.article.id=hp_my_blog.directors.articleId;
         `;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            conn.query(sql,[articleName,articleName,articleContent,alertDate,tags,id],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -90,9 +94,9 @@ let Handle = {
      * @param {Number} read             阅读次数
      */
     updateOneRead(id, read) {
-        let sql = `UPDATE ${tableName} SET  read='${read}' WHERE id='${id}'`;
+        let sql = `UPDATE ${tableName} SET  read= ? WHERE id=?`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            conn.query(sql,[read,id],(err,data)=>{
                 callback(err,data);
             })
             conn.release();

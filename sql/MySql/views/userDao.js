@@ -13,9 +13,9 @@ const tableName = 'hp_my_blog.user';
  * callback用来获取执行后的2个值
  */
 User.addOne = function(userName,email,password,callback){
-    let sql = `INSERT INTO hp_my_blog.user (userName,email,password) VALUES ('${userName}','${email}','${password}')`;
+    let sql = `INSERT INTO hp_my_blog.user (userName,email,password) VALUES (?,?,?)`;
     pool.getConnection((err,conn)=>{
-        conn.query(sql,(err,data)=>{
+        conn.query(sql,[userName,email,password],(err,data)=>{
             callback(err,data);
         })
         conn.release();
@@ -47,9 +47,9 @@ User.updateOne = function(findObj,updateObj,callback) {
  */
 
 User.query = function(userName,password,callback) {
-    let sql = `SELECT * FROM  user WHERE binary userName = '${userName}' AND binary password = '${password}'`;
+    let sql = `SELECT * FROM  user WHERE binary userName = ? AND binary password = ?`;
     pool.getConnection((err,conn)=>{
-        conn.query(sql,(err,data)=>{
+        conn.query(sql,[userName,password],(err,data)=>{
             callback(err,data);
         })
         conn.release();

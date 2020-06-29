@@ -1,13 +1,18 @@
 const epxress = require('express');
 
+
 const Article = require('../sql/MySql/views/articleDao');
 const Directory = require('../sql/MySql/views/directoryDao');
+const apiRouter = require('./baseRouter');
 
+const routerPath = apiRouter.articleServilce;
 const router = epxress.Router();
 
-router.post('/Article/add',(req,res,next)=>{
-    let array = req.body;
-    Article.addOne(...array,(err,data)=>{
+router.post(routerPath.add,(req,res,next)=>{
+
+    let [pid, articleName, articleContent,author,tags] = [...req.body];
+    
+    Article.addOne(pid, articleName, articleContent,author,tags,(err,data)=>{
         if(err) {
             next(err); 
         }
@@ -16,7 +21,7 @@ router.post('/Article/add',(req,res,next)=>{
     })
 })
 
-router.get('/Article/find',(req,res,next)=>{
+router.get(routerPath.find,(req,res,next)=>{
     let query = req.query;
     let id = query.id;
     Article.query(id,(err,data)=>{
@@ -29,12 +34,13 @@ router.get('/Article/find',(req,res,next)=>{
         }
         else {
             res.status(200);
+            console.log(data[0])
             res.json(data[0]);
         }
     })
 })
 
-router.get('/Article/query',(req,res,next)=>{
+router.get(routerPath.findLike,(req,res,next)=>{
     let query = req.query;
     let content = query.content;
     Article.likeQuery(content,(err,data)=>{
@@ -47,7 +53,7 @@ router.get('/Article/query',(req,res,next)=>{
         }
     })
 })
-router.get('/Article/findAll',(req,res,next)=>{
+router.get(routerPath.findAll,(req,res,next)=>{
 
     Article.queryAll((err,data)=>{
         if(err) {
@@ -59,11 +65,14 @@ router.get('/Article/findAll',(req,res,next)=>{
         }
         else {
             res.status(200);
+            data.forEach(element => {
+                element.articleContent = element.articleContent.replace(/’/g,'\'');
+            });
             res.json(data);
         }
     })
 })
-router.post('/Article/update',(req,res,next)=>{
+router.post(routerPath.update,(req,res,next)=>{
     let body = req.body;
     Article.updateOne(...body,(err,data)=>{
 
@@ -75,7 +84,7 @@ router.post('/Article/update',(req,res,next)=>{
     })
 })
 
-router.get('/Article/updateRead',(req,res,next)=>{
+router.get(routerPath.updateRead,(req,res,next)=>{
     let query = req.query;
     let id = query.id;
     let read = query.read;
@@ -88,7 +97,7 @@ router.get('/Article/updateRead',(req,res,next)=>{
     })
 })
 
-router.get('/Article/delete',(req,res,next)=>{
+router.get(routerPath.delete,(req,res,next)=>{
     let query = req.query;
     let articleId = query.articleId;
     Directory.deleteOnByAriticleId(articleId,(err,data)=>{
@@ -105,4 +114,4 @@ router.get('/Article/delete',(req,res,next)=>{
     })
 
 })
-module.exports = router;
+module.exports = router; 

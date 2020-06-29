@@ -13,9 +13,9 @@ let Handle = {
      * @param {Number} articleId 
      */
     addOne(pid,path,name,articleId,callback) {
-        let sql = `INSERT INTO ${tableName} (pid,path,name,articleId) VALUES ('${pid}','${path}','${name}','${articleId}')`;
+        let sql = `INSERT INTO ${tableName} (pid,path,name,articleId) VALUES (?,?,?,?)`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            conn.query(sql,[pid,path,name,articleId],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -30,9 +30,9 @@ let Handle = {
      * @param {*} callback 
      */
     updateOne(id,path,name,articleId,callback) {
-        let sql = `UPDATE ${tableName} SET  path='${path}', name='${name}' WHERE id='${id}'`;
+        let sql = `UPDATE ${tableName} SET  path=?, name=? WHERE id=?`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            conn.query(sql,[path,name,id],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -43,9 +43,13 @@ let Handle = {
      * @param {*} id 
      */
     deleteOne(id,callback) {
-        let sql = `DELETE FROM ${tableName} WHERE path like '%${id}%'`;
+        var id = '%'+ id + '%';
+
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            
+            let sql = `DELETE FROM ${tableName} WHERE path like ?`;
+
+            conn.query(sql,[id],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -56,9 +60,9 @@ let Handle = {
      * @param {*} articleId 
      */
     deleteOnByAriticleId(articleId,callback) {
-        let sql = `DELETE FROM ${tableName} WHERE articleId=${articleId}`;
+        let sql = `DELETE FROM ${tableName} WHERE articleId=?`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            conn.query(sql,[articleId],(err,data)=>{
                 callback(err,data);
             })
             conn.release();

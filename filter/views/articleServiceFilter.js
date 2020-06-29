@@ -1,30 +1,28 @@
-const hp_jwt = require('../validate/token');
-const apiRouter = require('../routers/baseRouter');
-
 module.exports = function (req, res, next) {
     let url = req.url;
     // 针对get请求 做处理
     let length = url.indexOf('?');
+    
     url = (length == -1) ? url : url.substring(0, length);
 
     switch (url) {
         // 这些不需要验证token
-        case apiRouter.userService.add:
+        case '/user/login':
             next();
             break;
-        case apiRouter.userService.find:
+        case '/user/register':
             next();
             break;
-        case apiRouter.directoryService.findAll:
+        case '/Directory/getAllDirectory':
             next();
             break;
-        case apiRouter.articleServilce.findAll:
+        case '/Article/find':
             next();
             break;
-        case apiRouter.articleServilce.find:
+        case '/Article/findAll':
             next();
             break;
-        case apiRouter.articleServilce.findLike:
+        case '/Article/query':
             next();
             break;
         // 其它默认需要验证token
@@ -36,6 +34,5 @@ module.exports = function (req, res, next) {
                 return;
             }
             next();
-
     }
 }

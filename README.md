@@ -38,6 +38,10 @@ validate // 身份验证
 
 存放各种请求处理
 
+#### baseRouter.js
+
+定义路径常量,后面方便维护。
+
 #### userService.js
 
 存放了对数据库中对user表的业务操作
@@ -57,6 +61,10 @@ validate // 身份验证
 #### MongoDb
 
 对mongodb数据库底层的操作
+
+说明：
+
+因为个人技术问题，暂时不使用这个数据库了。
 
 ##### views
 
@@ -80,7 +88,13 @@ validate // 身份验证
 
 #### MySql
 
-对mysql数据库底层的操作
+说明：
+
+对mysql数据库底层的操作。
+
+添加防止sql注入导致数据库直接gay掉***
+
+
 
 ##### views
 
@@ -207,4 +221,8 @@ token的设计
 | /Article/delete     | get  | articleId=‘id’                 | id(文章ID)                                                   | 需要              | 删除文章                             | 200成功，500服务器有问题，404不存在此接口 |
 
 ### 
+
+## 业务流程
+
+请看思维导图
 

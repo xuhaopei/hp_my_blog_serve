@@ -3,17 +3,20 @@ const epxress = require('express');
 //const User = require('../sql/MongoDb/views/userDao');       // 引用mongoDB
 const User = require('../sql/MySql/views/userDao');
 const hp_jwt  = require('../validate/token');
+const apiRouter = require('./baseRouter');
 
+const routerPath = apiRouter.userService;
 const router = epxress.Router();
 
-router.post('/user/login',(req,res,next)=>{
+router.post(routerPath.find,(req,res,next)=>{
     
     User.query(req.body.username,req.body.password,(err,data)=>{
         if(err) {
             next(err); 
         }
         if(data.length === 0) {
-            return res.status(404).json('查无此人嗷');
+            res.status(404).json('查无此人嗷');
+            return next();
         }
         for (const one of data) {
             let user = {
@@ -28,12 +31,14 @@ router.post('/user/login',(req,res,next)=>{
             //res.setHeader('Content-type','text/plain');
             //res.setHeader('Set-Cookie', ['name=xhp','Expires=Wed, 09 Jun 2021 10:18:14 GMT']);  
             res.status(200);     
-            return res.send({token,user});
+            res.send({token,user});
+            return next();
         }
     })
 })
 
-router.post('/user/register',(req,res,next)=>{
+router.post(routerPath.add,(req,res,next)=>{
+    return res.status(403).json('暂时不支持注册！');
     User.addOne(req.body.username,req.body.email,req.body.password,(err,data)=>{
         if(err) {
             next(err);
