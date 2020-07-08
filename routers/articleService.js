@@ -34,7 +34,6 @@ router.get(routerPath.find,(req,res,next)=>{
         }
         else {
             res.status(200);
-            console.log(data[0])
             res.json(data[0]);
         }
     })

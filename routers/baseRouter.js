@@ -21,5 +21,9 @@ module.exports = {
     userService: {
         add:'/user/register',
         find:'/user/login',
-    }
+    },
+    files:{
+        uploadImage:'/uploadImage',
+        uploadFile:'/uploadFile',
+    },
 }
