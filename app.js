@@ -52,6 +52,6 @@ app.use(apiFileService);
 
 app.set('trust proxy', 1) // trust first proxy
 
-app.listen(3000,()=>{
+app.listen(80,()=>{
     console.log("启动服务: localhost:3000")
 });
