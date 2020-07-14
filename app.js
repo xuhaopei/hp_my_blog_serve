@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require("path");
+const os = require('os');
 
 // 引入第三方插件
 const bodyParser = require('body-parser');
@@ -16,6 +17,9 @@ const apiArticleService = require('./routers/articleService');
 const apiFileService    = require('./routers/fileService');
 const filter            = require('./filter/baseFilter');
 
+// 引入自己的网络配置文件
+const IpAndPort = require('./net/IpAndPort');
+
 // 使用中间件
 app.use(bodyParser.json());                             // 当post请求时，里面的参数可以通过req.body()获取一个对象
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //     credentials: true, 
 //     origin: 'http://192.168.0.130:8080',             //指定跨域资源只有这个地址可以获取。
 // }));    
-//app.use(cors());    
+app.use(cors());    
 app.use(cookieParser());
 app.use(session({                       // 设置登录的验证方式之一 session 另外一种是token
     secret: 'keyboard cat',             // 用于数字签名 必须要
@@ -38,7 +42,7 @@ app.use(session({                       // 设置登录的验证方式之一 ses
 }))
 
 // 开放静态资源
-app.use(express.static('./dist')); // 以 /public/ 开头的url 都会到后面的文件夹public查找
+app.use(express.static('./dist')); 
 app.use('/public/',express.static('./public/')); // 以 /public/ 开头的url 都会到后面的文件夹public查找
 
 
@@ -52,6 +56,6 @@ app.use(apiFileService);
 
 app.set('trust proxy', 1) // trust first proxy
 
-app.listen(80,()=>{
-    console.log("启动服务: localhost:3000")
+app.listen(IpAndPort.port,()=>{
+    console.log(`启动服务: ${IpAndPort.ip}:${IpAndPort.port}`);
 });
