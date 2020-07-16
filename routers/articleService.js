@@ -10,9 +10,9 @@ const router = epxress.Router();
 
 router.post(routerPath.add,(req,res,next)=>{
 
-    let [pid, articleName, articleContent,author,tags] = [...req.body];
+    //let [pid, articleName, articleContent,author,tags,articleContentText] = [...req.body];
     
-    Article.addOne(pid, articleName, articleContent,author,tags,(err,data)=>{
+    Article.addOne(...req.body,(err,data)=>{
         if(err) {
             next(err); 
         }
