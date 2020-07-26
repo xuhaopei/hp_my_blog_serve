@@ -158,10 +158,9 @@ let Handle = {
      */
     querySome(id,size,callback){
         let start = (id-1) * size;
-        let end = start + size;
         let sql = `SELECT * FROM  ${tableName}  limit ?,?`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,[start,end],(err,data)=>{
+            conn.query(sql,[start,size],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
