@@ -8,6 +8,8 @@ module.exports = {
         find:       '/Article/find',
         findLike:   '/Article/query',
         findAll:    '/Article/findAll',
+        findSome:   '/Article/findSome',
+        findSum:    '/Article/findArticleSum',
         update:     '/Article/update',
         updateRead: '/Article/updateRead',
         delete:     '/Article/delete'

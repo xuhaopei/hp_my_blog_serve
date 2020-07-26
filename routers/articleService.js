@@ -71,10 +71,49 @@ router.get(routerPath.findAll,(req,res,next)=>{
         }
     })
 })
+
+router.get(routerPath.findSome,(req,res,next)=>{
+    let query = req.query;
+    let pageId = parseInt(query.pageId);
+    let pageSize = parseInt(query.pageSize);
+    Article.querySome(pageId,pageSize,(err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        else if(data.length === 0) {
+            res.status(404);
+            res.send('文章不存在嗷');
+        }
+        else {
+            res.status(200);
+            data.forEach(element => {
+                element.articleContent = element.articleContent.replace(/’/g,'\'');
+            });
+            res.json(data);
+        }
+    })
+})
+
+router.get(routerPath.findSum,(req,res,next)=>{
+
+    Article.queryAllNumber((err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        else if(data.length === 0) {
+            res.status(404);
+            res.send('不存在');
+        }
+        else {
+            res.status(200);
+            res.json(data);
+        }
+    })
+})
+
 router.post(routerPath.update,(req,res,next)=>{
     let body = req.body;
     Article.updateOne(...body,(err,data)=>{
-
         if(err) {
             next(err); 
         }

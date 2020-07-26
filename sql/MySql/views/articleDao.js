@@ -113,7 +113,7 @@ let Handle = {
     likeQuery(content, callback) {
         let sql = `
             SELECT * FROM hp_my_blog.article 
-            WHERE CONCAT(IFNULL(articleName,''),IFNULL(articleContent,''),IFNULL(author,''),IFNULL(tags,'')) 
+            WHERE CONCAT(IFNULL(articleName,''),IFNULL(articleContentText,''),IFNULL(author,''),IFNULL(tags,'')) 
             LIKE '%${content}%'`;
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
@@ -141,7 +141,7 @@ let Handle = {
     * @param {String} articleId        文章ID
     * @param {Function} callback       回调函数接收2个参数 
     */
-   queryAll(callback) {
+    queryAll(callback) {
         let sql = `SELECT * FROM  ${tableName} `;
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
@@ -149,6 +149,35 @@ let Handle = {
             })
             conn.release();
         }); 
-   }
+    },
+    /**
+     * 分页查询
+     * @param {Number} id 
+     * @param {Number} size 
+     * @param {Function} callback 
+     */
+    querySome(id,size,callback){
+        let start = (id-1) * size;
+        let end = start + size;
+        let sql = `SELECT * FROM  ${tableName}  limit ?,?`;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,[start,end],(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });         
+    },
+    /**
+     * 获取文章总数量
+     */
+    queryAllNumber(callback){
+        let sql = `SELECT COUNT(*) FROM  ${tableName}`;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });         
+    },    
 }
 module.exports = Handle;

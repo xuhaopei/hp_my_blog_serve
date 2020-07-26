@@ -180,16 +180,17 @@ token的设计
 
 ##### artilce表
 
-| 字段名         | 是否可为空 | 数据类型 | 默认值   | 备注         |
-| -------------- | ---------- | -------- | -------- | ------------ |
-| id             | 否         | Number   |          | 文章id       |
-| pid            | 否         | Number   |          | 目录id       |
-| articleName    | 否         | String   |          | 文章名       |
-| articleContent | 否         | String   |          | 文章内容     |
-| author         | 否         | String   |          | 文章所属区域 |
-| alertDate      | 否         | Date     | Date.now | 文章修改时间 |
-| read           | 否         | Number   | 0        | 文章阅读次数 |
-| tags           | 是         | String   |          | 文章标签     |
+| 字段名             | 是否可为空 | 数据类型 | 默认值   | 备注         |
+| ------------------ | ---------- | -------- | -------- | ------------ |
+| id                 | 否         | Number   |          | 文章id       |
+| pid                | 否         | Number   |          | 目录id       |
+| articleName        | 否         | String   |          | 文章名       |
+| articleContent     | 是         | String   | NULL     | 文章HTML内容 |
+| author             | 否         | String   |          | 文章所属区域 |
+| alertDate          | 否         | Date     | Date.now | 文章修改时间 |
+| read               | 否         | Number   | 0        | 文章阅读次数 |
+| tags               | 是         | String   |          | 文章标签     |
+| articleContentText | 是         | String   | NULL     | 文章TEXT内容 |
 
 
 
@@ -214,15 +215,17 @@ token的设计
 
 ### 对文章操作的API
 
-| 路径                | 方法 | get参数                        | post参数                                                     | 是否需要验证token | 功能                                 | 状态码                                    |
-| ------------------- | ---- | ------------------------------ | ------------------------------------------------------------ | ----------------- | ------------------------------------ | :---------------------------------------- |
-| /Article/query      | get  | content                        |                                                              |                   | 模糊查询文章的标题，标签，文章内容。 | 200成功，500服务器有问题，404资源不存在   |
-| /Article/find       | get  | id                             |                                                              |                   | 根据文章id查询文章                   | 200成功，500服务器有问题，404不存在此接口 |
-| /Article/findAll    | get  |                                |                                                              |                   | 查询所有文章                         | 200成功，500服务器有问题，404不存在此接口 |
-| /Article/update     | post |                                | id(文章ID),<br />articleName(文章标题),<br />articleContent(文章内容),<br />tags(标签，每个标签用,隔开) | 需要              | 根据文章id更新文章                   | 200成功，500服务器有问题，404不存在此接口 |
-| /Article/updateRead | get  | id(文章ID)<br />read(阅读次数) |                                                              | 需要              | 根据文章id增加阅读次数               | 200成功，500服务器有问题，404不存在此接口 |
-| /Article/add        | post |                                | pid(目录),<br />articleName(文章标题),<br />articleContent(文章内容),<br />author(作者),<br />tags(标签，每个标签用,隔开) | 需要              | 添加文章                             | 200成功，500服务器有问题，404不存在此接口 |
-| /Article/delete     | get  | articleId=‘id’                 | id(文章ID)                                                   | 需要              | 删除文章                             | 200成功，500服务器有问题，404不存在此接口 |
+| 路径                    | 方法 | get参数                        | post参数                                                     | 是否需要验证token | 功能                                  | 状态码                                    |
+| ----------------------- | ---- | ------------------------------ | ------------------------------------------------------------ | ----------------- | ------------------------------------- | :---------------------------------------- |
+| /Article/query          | get  | content                        |                                                              |                   | 模糊查询文章的标题，标签，文章内容。  | 200成功，500服务器有问题，404资源不存在   |
+| /Article/find           | get  | id                             |                                                              |                   | 根据文章id查询文章                    | 200成功，500服务器有问题，404不存在此接口 |
+| /Article/findAll        | get  |                                |                                                              |                   | 查询所有文章                          | 200成功，500服务器有问题，404不存在此接口 |
+| /Article/findSome       | get  | pageId,pageSize                |                                                              |                   | 根据pageId,<br />pageSize查询文章数量 | 200成功，500服务器有问题，404不存在此接口 |
+| /Article/findArticleSum | get  |                                |                                                              |                   | 获取文章的总数量                      | 200成功，500服务器有问题，404不存在此接口 |
+| /Article/update         | post |                                | id(文章ID),<br />articleName(文章标题),<br />articleContent(文章HTML内容),<br />tags(标签，每个标签用,隔开),<br />articleContentText(文章text内容), | 需要              | 根据文章id更新文章                    | 200成功，500服务器有问题，404不存在此接口 |
+| /Article/updateRead     | get  | id(文章ID)<br />read(阅读次数) |                                                              | 需要              | 根据文章id增加阅读次数                | 200成功，500服务器有问题，404不存在此接口 |
+| /Article/add            | post |                                | pid(目录),<br />articleName(文章标题),<br />articleContent(文章内容),<br />author(作者),<br />tags(标签，每个标签用,隔开),<br />articleContentText(文章text内容), | 需要              | 添加文章                              | 200成功，500服务器有问题，404不存在此接口 |
+| /Article/delete         | get  | articleId=‘id’                 | id(文章ID)                                                   | 需要              | 删除文章                              | 200成功，500服务器有问题，404不存在此接口 |
 
 ### 对文件操作的API
 
