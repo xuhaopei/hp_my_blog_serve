@@ -40,9 +40,11 @@ router.get(routerPath.find,(req,res,next)=>{
 })
 
 router.get(routerPath.findLike,(req,res,next)=>{
-    let query = req.query;
-    let content = query.content;
-    Article.likeQuery(content,(err,data)=>{
+    let query    = req.query;
+    let content  = query.content;
+    let pageId   = parseInt(query.pageId);
+    let pageSize = parseInt(query.pageSize);
+    Article.likeQuery(content,pageId,pageSize,(err,data)=>{
         if(err) {
             next(err); 
         }
@@ -52,6 +54,25 @@ router.get(routerPath.findLike,(req,res,next)=>{
         }
     })
 })
+
+router.get(routerPath.findLikeSum,(req,res,next)=>{
+    let query    = req.query;
+    let content  = query.content;
+    Article.likeQueryAllNumber(content,(err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        else if(data.length === 0) {
+            res.status(404);
+            res.send('不存在');
+        }
+        else {
+            res.status(200);
+            res.json(data);
+        }
+    })
+})
+
 router.get(routerPath.findAll,(req,res,next)=>{
 
     Article.queryAll((err,data)=>{

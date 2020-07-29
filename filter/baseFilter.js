@@ -27,6 +27,9 @@ module.exports = function (req, res, next) {
         case apiRouter.articleServilce.findLike:
             next();
             break;
+        case apiRouter.articleServilce.findLikeSum:
+            next();
+            break;
         case apiRouter.articleServilce.findSum:
             next();
             break;
@@ -40,7 +43,7 @@ module.exports = function (req, res, next) {
             if (hp_jwt.validateToken(token) == false) {
                 res.status(401);
                 res.json('你没有权限查看，请您登录~');
-                console.log('劫持了丫.',url);
+                console.log('劫持了丫.', url);
                 return;
             }
 

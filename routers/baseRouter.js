@@ -7,6 +7,7 @@ module.exports = {
         add:        '/Article/add',
         find:       '/Article/find',
         findLike:   '/Article/query',
+        findLikeSum:'/Article/queryArticleSum',
         findAll:    '/Article/findAll',
         findSome:   '/Article/findSome',
         findSum:    '/Article/findArticleSum',

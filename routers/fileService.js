@@ -31,8 +31,15 @@ router.post(routerPath.uploadImage, (req, res, next) => {
         fs.rename(oldname, newname, function (err) {            // 进行修改
           if (err) console.log(err);
           // 回传给客户端
-          newname = newname.split('\\');
-          let imageUrl = `http:${IpAndPort.ip}:${IpAndPort.port}` +'/' + newname[newname.length - 3] + '/' + newname[newname.length - 2] + '/' + newname[newname.length - 1];
+          
+          /* 针对window操作系统的 */
+          //newname = newname.split('\\');
+          //let imageUrl = `http:${IpAndPort.ip}:${IpAndPort.port}` +'/' + newname[newname.length - 3] + '/' + newname[newname.length - 2] + '/' + newname[newname.length - 1];
+          
+          /**针对linux操作系统 */
+          newname = newname.split('/');
+          let imageUrl = `/${newname[newname.length - 3]}/${newname[newname.length - 2]}/${newname[newname.length - 1]}`
+          
           let image = {};
           image.errno = 0;
           image.data = [];

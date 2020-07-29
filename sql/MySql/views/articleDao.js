@@ -106,22 +106,43 @@ let Handle = {
         });
     },
     /**
-     * 根据content模糊查询文章的标题，标签，文章内容。
-     * @param {String} content             
+     * 根据content,分页模糊查询文章的标题，标签。
+     * @param {String} content         
+     * @param {Number} pageId 
+     * @param {Number} pageSize     
      * @param {Function} callback       回调函数接收2个参数 
      */
-    likeQuery(content, callback) {
+    likeQuery(content,pageId,pageSize,callback) {
+        let start = (pageId-1) * pageSize;
         let sql = `
-            SELECT * FROM hp_my_blog.article 
-            WHERE CONCAT(IFNULL(articleName,''),IFNULL(articleContentText,''),IFNULL(author,''),IFNULL(tags,'')) 
-            LIKE '%${content}%'`;
+            SELECT * FROM ${tableName} 
+            WHERE CONCAT(IFNULL(articleName,''),IFNULL(tags,'')) 
+            LIKE  ?
+            limit ?,?
+            `;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,(err,data)=>{
+            conn.query(sql,[`%${content}%`,start,pageSize],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
         });        
     },
+    /**
+     * 获取文章总数量
+     */
+    likeQueryAllNumber(content,callback){
+        let sql = `
+        SELECT COUNT(*) FROM  ${tableName}
+        WHERE CONCAT(IFNULL(articleName,''),IFNULL(tags,'')) 
+        LIKE  ?
+        `;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,[`%${content}%`],(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });         
+    },   
     /**
      * 根据文章ID查找一篇文章
      * @param {Number} id        文章ID
@@ -152,15 +173,15 @@ let Handle = {
     },
     /**
      * 分页查询
-     * @param {Number} id 
-     * @param {Number} size 
+     * @param {Number} pageId 
+     * @param {Number} pageSize 
      * @param {Function} callback 
      */
-    querySome(id,size,callback){
-        let start = (id-1) * size;
+    querySome(pageId,pageSize,callback){
+        let start = (pageId-1) * pageSize;
         let sql = `SELECT * FROM  ${tableName}  limit ?,?`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,[start,size],(err,data)=>{
+            conn.query(sql,[start,pageSize],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
