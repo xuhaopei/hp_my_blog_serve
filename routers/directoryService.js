@@ -116,6 +116,7 @@ function initDirectorData(data){
     function digui(parentObj,sonObj,flag) {
         let parentPath = parentObj.path;                            
         let sonPath = sonObj.path.substring(0,sonObj.path.lastIndexOf('/'));
+        let hadInsert = false;
         /**如果sonPath截取部分跟parentPath一样，说明sonObj要插入到这个目录中*/
         if(parentPath === sonPath) {
             if(flag === 0) {
@@ -124,14 +125,14 @@ function initDirectorData(data){
             else {
                 parentObj.childrens.unshift(sonObj);
             }
-            return true;
+            hadInsert = true;
         }
         else {
             for (const iterator of parentObj.childrens[parentObj.childrens.length - 1]) {
-                return digui(iterator,sonObj,flag);
+                hadInsert = digui(iterator,sonObj,flag);
             }
         }
-        return false;
+        return hadInsert;
     }
 }
 
