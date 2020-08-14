@@ -118,6 +118,7 @@ let Handle = {
             SELECT * FROM ${tableName} 
             WHERE CONCAT(IFNULL(articleName,''),IFNULL(tags,'')) 
             LIKE  ?
+            Order By alertDate Desc
             limit ?,?
             `;
         pool.getConnection((err,conn)=>{
@@ -163,7 +164,8 @@ let Handle = {
     * @param {Function} callback       回调函数接收2个参数 
     */
     queryAll(callback) {
-        let sql = `SELECT * FROM  ${tableName} `;
+        let sql = `SELECT * FROM  ${tableName}   Order By id Desc`;
+        console.log(sql)
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
                 callback(err,data);
@@ -179,7 +181,7 @@ let Handle = {
      */
     querySome(pageId,pageSize,callback){
         let start = (pageId-1) * pageSize;
-        let sql = `SELECT * FROM  ${tableName}  limit ?,?`;
+        let sql = `SELECT * FROM  ${tableName}  limit ?,? `;
         pool.getConnection((err,conn)=>{
             conn.query(sql,[start,pageSize],(err,data)=>{
                 callback(err,data);
