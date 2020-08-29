@@ -28,6 +28,7 @@
     "formidable": "^1.2.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.16",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "serialize-javascript": "^3.1.0"
   }
 }

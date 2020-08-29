@@ -181,7 +181,7 @@ let Handle = {
      */
     querySome(pageId,pageSize,callback){
         let start = (pageId-1) * pageSize;
-        let sql = `SELECT * FROM  ${tableName}  limit ?,? `;
+        let sql = `SELECT * FROM  ${tableName} Order By alertDate Desc limit ?,? `;
         pool.getConnection((err,conn)=>{
             conn.query(sql,[start,pageSize],(err,data)=>{
                 callback(err,data);

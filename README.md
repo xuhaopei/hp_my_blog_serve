@@ -4,18 +4,23 @@
 
 采用了MVC+DAO+Service模式的设计，增强了后台服务器的可维护性。
 
+**使用到的技术栈：**
+
+nodejs,express,jsonwebtoken,mysql
+
 ## 1目录结构
 
 
-
-
 ```
-app.js   // 服务器入口
-public   // 公共静态资源
-routers  // 存放各种请求处理
-sql		 // 操作数据库
-filter   // 过滤器
-validate // 身份验证
+app.js   			// 服务器入口
+filter   			// 各种请求路口，进行过滤判断是否需要验证
+public   			// 公共静态资源
+---image 			// 存放静态图片
+routers  			// 存放各种请求路由的service层
+sql		 			// 操作数据库的dao层
+---MongoDB			// mongodb数据库的dao层
+---MySQL			// mysql数据库层
+validate 			// 对于那些需要验证身份的请求根据请求头获取token进行验证或者创建token
 ```
 
 ### app.js
@@ -96,9 +101,7 @@ validate // 身份验证
 
 对mysql数据库底层的操作。
 
-添加防止sql注入导致数据库直接gay掉***
-
-
+添加防止sql注入导致数据库直接gay掉
 
 ##### views
 
@@ -241,3 +244,8 @@ token的设计
 
 请看思维导图
 
+# 开发环境
+
+node.js 
+
+mysql安装
