@@ -69,8 +69,8 @@ router.post(routerPath.delete,(req,res,next)=>{
 
 })
 /**
- * 将数据库的目录数组封装成树图形
- * @param {*} data 
+ * 将数据库的目录数组封装成树形图形，关键是根据父目录path与子目录（子文件）path来确定插入关系的
+ * @param {Array} data 
  */
 function initDirectorData(data){
     
@@ -93,6 +93,7 @@ function initDirectorData(data){
                 break;
             }
         }
+        
         if(hadInsert === false) {
             array.push(one);
         }
@@ -127,9 +128,11 @@ function initDirectorData(data){
             }
             hadInsert = true;
         }
+        /**否则查看sonObj是否要插入到这个目录的子目录中 */
         else {
             for (const iterator of parentObj.childrens[parentObj.childrens.length - 1]) {
                 hadInsert = digui(iterator,sonObj,flag);
+                if(hadInsert)break;         // 防止已经插入到目录的元素重复插入         
             }
         }
         return hadInsert;
