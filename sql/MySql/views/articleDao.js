@@ -200,6 +200,21 @@ let Handle = {
             })
             conn.release();
         });         
-    },    
+    },
+    /**
+     * 查询最近创建文章的数量
+     * @param {Number} size 查询最近的数量 
+     */
+    queryNear(size,callback) {
+        size = size-'';
+        let sql = `SELECT * FROM  ${tableName} Order By id Desc limit 0,?`;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,[size],(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });  
+    }
+    
 }
 module.exports = Handle;

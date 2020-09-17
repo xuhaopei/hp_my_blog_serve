@@ -6,6 +6,7 @@ module.exports = {
     articleServilce: {
         add:        '/Article/add',
         find:       '/Article/find',
+        findNear:   '/Article/findNear',
         findLike:   '/Article/query',
         findLikeSum:'/Article/queryArticleSum',
         findAll:    '/Article/findAll',

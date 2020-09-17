@@ -171,6 +171,18 @@ router.get(routerPath.delete,(req,res,next)=>{
         res.status(200);
         res.send('删除文章成功！');
     })
-
 })
+
+router.get(routerPath.findNear,(req,res,next)=>{
+    let query = req.query;
+    let size = query.size;
+    Article.queryNear(size,(err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        res.status(200);
+        res.json(data);
+    })
+})
+
 module.exports = router; 

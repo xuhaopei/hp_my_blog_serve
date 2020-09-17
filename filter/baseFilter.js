@@ -23,6 +23,9 @@ module.exports = function (req, res, next) {
             break;
         case apiRouter.articleServilce.findSome:
             next();
+            break;        
+        case apiRouter.articleServilce.findNear:
+            next();
             break;
         case apiRouter.articleServilce.findLike:
             next();
