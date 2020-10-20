@@ -41,10 +41,10 @@ app.use(session({                       // 设置登录的验证方式之一 ses
     }
 }))
 
-// 开放静态资源
-app.use(express.static('./dist')); 
-app.use('/public/',express.static('./public/')); // 以 /public/ 开头的url 都会到后面的文件夹public查找
 
+// 开放静态资源
+app.use('/public/',express.static('./public')); // 以 /public/ 开头的url 都会到后面的文件夹public查找
+app.use(express.static('./dist')); 
 
 // 使用API接口
 app.use(filter);
@@ -52,6 +52,9 @@ app.use(userService);
 app.use(directoryService);
 app.use(apiArticleService);
 app.use(apiFileService);
+
+
+
 // 测试
 
 app.set('trust proxy', 1) // trust first proxy
