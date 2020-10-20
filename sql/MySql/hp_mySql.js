@@ -4,7 +4,7 @@ var mysql = require('mysql');
 const options = {                   
     host            : 'localhost',
     user            : 'root',
-    password        : '123456',
+    password        : '******',
     database        : 'hp_my_blog',
     port            : '3306',
     connectTimeout  : 5000,         // 连接超时时间
