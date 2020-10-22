@@ -41,20 +41,12 @@ module.exports = function (req, res, next) {
             break;
         // 其它默认需要验证token
         default:
-
-            // 针对图片开放 这是个bug 我还没理清楚 后面再改。
-            let reg = /^\/public\/image\//g;
-            if (reg.test(url)) {
-                next();
-                return;
-            }
-            if (hp_jwt.validateToken(token) == false) {
+            if (hp_jwt.validateToken(req.headers.token) == false) {
                 res.status(401);
                 res.json('你没有权限查看，请您登录~');
                 console.log('劫持了丫.', url);
                 return;
             }
-
             next();
     }
 }
