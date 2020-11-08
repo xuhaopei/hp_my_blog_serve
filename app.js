@@ -21,8 +21,8 @@ const filter            = require('./filter/baseFilter');
 const IpAndPort = require('./net/IpAndPort');
 
 // 使用中间件
-app.use(bodyParser.json());                             // 当post请求时，里面的参数可以通过req.body()获取一个对象
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({"limit":"10000kb"}));                             // 当post请求时，里面的参数可以通过req.body()获取一个对象
+app.use(bodyParser.urlencoded({"limit":"10000kb"}));
 // app.use(cors({                                       // 当请求跨域时，如果要设置身份验证 需要用到这个配置选项
 //     credentials: true, 
 //     origin: 'http://192.168.0.130:8080',             //指定跨域资源只有这个地址可以获取。
