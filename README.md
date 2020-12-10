@@ -195,6 +195,15 @@ token的设计
 | tags               | 是         | String   |          | 文章标签     |
 | articleContentText | 是         | String   | NULL     | 文章TEXT内容 |
 
+##### calenderPlan表
+
+| 字段名  | 是否可为空 | 数据类型 | 默认值                       | 备注           |
+| ------- | ---------- | -------- | ---------------------------- | -------------- |
+| id      | 否         | Number   |                              | 一则计划id     |
+| uid     | 否         | Number   |                              | 用户id         |
+| date    | 否         | String   |                              | 制定计划的日期 |
+| content | 是         | String   | {content:'',hasfinish:false} | 计划的内容     |
+
 
 
 ## API设计

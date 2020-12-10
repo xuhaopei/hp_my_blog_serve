@@ -15,12 +15,12 @@ Token.prototype.createToken = function(data){
     return token;
 }
 Token.prototype.validateToken = function(token){
-    let result = false;
+    let result = null;
     try {
         let decoded = jwt.verify(token, this.privateKey);
-        result = true;
+        result = decoded;
     } catch(err) {
-        result = false;
+        result = null;
     }
     return result;
 }

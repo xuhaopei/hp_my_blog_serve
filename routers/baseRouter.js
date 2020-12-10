@@ -29,5 +29,9 @@ module.exports = {
     files:{
         uploadImage:'/uploadImage',
         uploadFile:'/uploadFile',
-    }
+    },
+    calenderService:{
+        commit:'/commitCalender',
+        getCalender:'/getCalender'
+    },
 }

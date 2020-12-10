@@ -11,11 +11,13 @@ const cors = require('cors');
 
 
 // 引入自己写的API接口
+
+const filter            = require('./filter/baseFilter');
 const userService       = require('./routers/userService');
 const directoryService  = require('./routers/directoryService');
 const apiArticleService = require('./routers/articleService');
 const apiFileService    = require('./routers/fileService');
-const filter            = require('./filter/baseFilter');
+const calenderplanService   = require('./routers/calenderplanService')
 
 // 引入自己的网络配置文件
 const IpAndPort = require('./net/IpAndPort');
@@ -47,11 +49,12 @@ app.use('/public/',express.static('./public')); // 以 /public/ 开头的url 都
 app.use(express.static('./dist')); 
 
 // 使用API接口
-app.use(filter);
 app.use(userService);
 app.use(directoryService);
 app.use(apiArticleService);
 app.use(apiFileService);
+app.use(calenderplanService);
+app.use(filter);
 
 
 

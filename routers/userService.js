@@ -21,10 +21,6 @@ router.post(routerPath.find,(req,res,next)=>{
         for (const one of data) {
             let user = {
                 userId     : one.userId,
-                userName   : one.userName,
-                email      : one.email,
-                authority  : one.authority,
-                creatDate  : one.creatDate
             }
             let token = hp_jwt.createToken(user);
             //res.setHeader('Access-Control-Allow-Credentials','true');

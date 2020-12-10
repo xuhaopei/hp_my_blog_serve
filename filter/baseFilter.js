@@ -41,12 +41,15 @@ module.exports = function (req, res, next) {
             break;
         // 其它默认需要验证token
         default:
-            if (hp_jwt.validateToken(req.headers.token) == false) {
+            let token = hp_jwt.validateToken(req.headers.token);
+            console.log(url)
+            if (token === null) {
                 res.status(401);
                 res.json('你没有权限查看，请您登录~');
                 console.log('劫持了丫.', url);
                 return;
             }
+
             next();
     }
 }
