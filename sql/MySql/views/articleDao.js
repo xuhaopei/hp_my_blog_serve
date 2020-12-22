@@ -115,7 +115,9 @@ let Handle = {
     likeQuery(content,pageId,pageSize,callback) {
         let start = (pageId-1) * pageSize;
         let sql = `
-            SELECT * FROM ${tableName} 
+            SELECT 
+            id,pid,articleName,alertDate,tags 
+            FROM ${tableName} 
             WHERE CONCAT(IFNULL(articleName,''),IFNULL(tags,'')) 
             LIKE  ?
             Order By alertDate Desc
@@ -181,7 +183,9 @@ let Handle = {
      */
     querySome(pageId,pageSize,callback){
         let start = (pageId-1) * pageSize;
-        let sql = `SELECT * FROM  ${tableName} Order By alertDate Desc limit ?,? `;
+        let sql = `SELECT 
+        id,pid,articleName,alertDate,tags 
+        FROM  ${tableName} Order By alertDate Desc limit ?,? `;
         pool.getConnection((err,conn)=>{
             conn.query(sql,[start,pageSize],(err,data)=>{
                 callback(err,data);
@@ -207,7 +211,7 @@ let Handle = {
      */
     queryNear(size,callback) {
         size = size-'';
-        let sql = `SELECT * FROM  ${tableName} Order By id Desc limit 0,?`;
+        let sql = `SELECT id,pid,articleName,alertDate,tags FROM  ${tableName} Order By id Desc limit 0,?`;
         pool.getConnection((err,conn)=>{
             conn.query(sql,[size],(err,data)=>{
                 callback(err,data);
