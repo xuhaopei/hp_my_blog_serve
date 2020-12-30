@@ -1,1 +1,55 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=1080,height=100,initial-scale=1"><link rel=stylesheet href=//at.alicdn.com/t/font_1923671_cc168d7lr3d.css><link rel=icon href=./jianpan.ico><title>正义de键盘侠</title><link href=/css/chunk-05307105.92e40b2f.css rel=prefetch><link href=/css/chunk-0de74752.aace52ff.css rel=prefetch><link href=/css/chunk-1437e01e.ce5238e9.css rel=prefetch><link href=/css/chunk-687ca1ef.48adf182.css rel=prefetch><link href=/css/chunk-deca38ac.5c0f405d.css rel=prefetch><link href=/css/chunk-f0c5cde4.7f8fa64f.css rel=prefetch><link href=/js/chunk-05307105.fe0f91ef.js rel=prefetch><link href=/js/chunk-0de74752.e92406a9.js rel=prefetch><link href=/js/chunk-1437e01e.50b1ede5.js rel=prefetch><link href=/js/chunk-687ca1ef.88ffd551.js rel=prefetch><link href=/js/chunk-deca38ac.1d3f3b50.js rel=prefetch><link href=/js/chunk-f0c5cde4.7ffea133.js rel=prefetch><link href=/css/app.2ef95a4b.css rel=preload as=style><link href=/css/chunk-vendors.29921295.css rel=preload as=style><link href=/js/app.746dd016.js rel=preload as=script><link href=/js/chunk-vendors.86dbbad9.js rel=preload as=script><link href=/css/chunk-vendors.29921295.css rel=stylesheet><link href=/css/app.2ef95a4b.css rel=stylesheet></head><body><noscript><strong>We're sorry but hp_my_blog doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><div id=app></div><script src=/js/chunk-vendors.86dbbad9.js></script><script src=/js/app.746dd016.js></script></body></html>
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=1080,height=100,initial-scale=1"><link rel=stylesheet href=//at.alicdn.com/t/font_1923671_cc168d7lr3d.css><link rel=icon href=./jianpan.ico><title>正义de键盘侠</title><style>#hpBackground{
+        position: fixed;
+        z-index: -1;
+        transform: perspective(10000px) rotateX(-15deg) rotateY(30deg);
+      }</style><link href=/css/chunk-05307105.92e40b2f.css rel=prefetch><link href=/css/chunk-1437e01e.ce5238e9.css rel=prefetch><link href=/css/chunk-192d3c24.7f8fa64f.css rel=prefetch><link href=/css/chunk-687ca1ef.48adf182.css rel=prefetch><link href=/css/chunk-8f1ec6be.2f7db51c.css rel=prefetch><link href=/css/chunk-deca38ac.5c0f405d.css rel=prefetch><link href=/js/chunk-05307105.fe0f91ef.js rel=prefetch><link href=/js/chunk-1437e01e.50b1ede5.js rel=prefetch><link href=/js/chunk-192d3c24.f1ca8159.js rel=prefetch><link href=/js/chunk-51adf427.ea07e118.js rel=prefetch><link href=/js/chunk-687ca1ef.88ffd551.js rel=prefetch><link href=/js/chunk-8f1ec6be.2d5d49d8.js rel=prefetch><link href=/js/chunk-deca38ac.1d3f3b50.js rel=prefetch><link href=/css/app.cdc4d5b1.css rel=preload as=style><link href=/css/chunk-vendors.61be470e.css rel=preload as=style><link href=/js/app.786fd657.js rel=preload as=script><link href=/js/chunk-vendors.c1eafcf7.js rel=preload as=script><link href=/css/chunk-vendors.61be470e.css rel=stylesheet><link href=/css/app.cdc4d5b1.css rel=stylesheet></head><body><noscript><strong>We're sorry but hp_my_blog doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><canvas id=hpBackground></canvas><div id=app></div><script>{
+        document.addEventListener('touchmove', function(e) {
+          e.preventDefault()
+        })
+
+        let c = document.getElementsByTagName('canvas')[0],
+          x = c.getContext('2d'),
+          pr = window.devicePixelRatio || 1,
+          w = window.document.body.clientWidth,
+          h = window.innerHeight,
+          f = 90,
+          q,
+          r = 0,
+          u = Math.PI * 2,
+          v = Math.cos,
+          z = Math.random
+          c.width = w;
+          c.height = h 
+          x.scale(pr, pr)
+          x.globalAlpha = 1.1
+
+        function i() {
+          x.clearRect(0, 0, w, h)
+          q = [{ x: 0, y: h * .7 + f }, { x: 0, y: h * .7 - f }]
+          while (q[1].x < w + f) d(q[0], q[1])
+        }
+
+        function d(i, j) {
+          x.beginPath()
+          x.moveTo(i.x, i.y)
+          x.lineTo(j.x, j.y)
+          let k = j.x + (z() * 2 - 0.25) * f,
+            n = y(j.y)
+          x.lineTo(k, n)
+          x.closePath()
+          r -= u / -50
+          x.fillStyle = '#' + (v(r) * 127 + 128 << 16 | v(r + u / 3) * 127 + 128 << 8 | v(r + u / 3 * 2) * 127 + 128).toString(16)
+          x.fill()
+          q[0] = q[1]
+          q[1] = { x: k, y: n }
+        }
+
+        function y(p) {
+          let t = p + (z() * 2 - 1.1) * f
+          return (t > h || t < 0) ? y(p) : t
+        }
+
+        //document.onclick = i
+        //document.ontouchstart = i
+        i()
+  }</script><script src=/js/chunk-vendors.c1eafcf7.js></script><script src=/js/app.786fd657.js></script></body></html>
