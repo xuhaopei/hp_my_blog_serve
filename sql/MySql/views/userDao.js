@@ -3,40 +3,57 @@ const pool = require('../hp_mySql');
 
 let User = {};
 
-const tableName = 'hp_my_blog.user';
+const tableName = 'notes.user';
 
 /**
  * 添加一个用户。
- * userName 用户名
- * email    用户邮箱
- * password 用户密码 
  * callback用来获取执行后的2个值
  */
-User.addOne = function(userName,email,password,callback){
-    let sql = `INSERT INTO hp_my_blog.user (userName,email,password) VALUES (?,?,?)`;
+User.addOne = function(userName,email,password,sex,school,major,classes,callback){
+    let sql = `INSERT INTO ${tableName} (userName,email,password,sex,school,major,class) VALUES (?,?,?,?,?,?,?)`;
     pool.getConnection((err,conn)=>{
-        conn.query(sql,[userName,email,password],(err,data)=>{
+        conn.query(sql,[userName,email,password,sex,school,major,classes],(err,data)=>{
             callback(err,data);
         })
         conn.release();
     });
 }
 /**
- * 封装了删除一条实例的方法
- * obj要删除实例的数据的条件比如 userName:'xhp';，如果有多个符合实例，则删除第一个 
- * callback用来获取执行后的2个值
+ * 根据id删除用户
  */
-User.deleteOne = function(obj,callback) {
-
+User.deleteOne = function(id,callback) {
+    let sql = `DELETE FROM ${tableName} WHERE id=?`;
+    pool.getConnection((err,conn)=>{
+        conn.query(sql,[id],(err,data)=>{
+            callback(err,data);
+        })
+        conn.release();
+    }); 
 }
 
 /**
- * 封装了更新一条实例的方法
- * findObj要更新实例数据的条件比如 userName:'xhp';updateObj要更新的数据,可以是部分属性，比如{password:"100086"},如果有多个符合查询条件的实例，则更新第一个 
- * callback用来获取执行后的2个值
+ * 修改用户信息
+ * 
  */
-User.updateOne = function(findObj,updateObj,callback) {
-
+User.alertOne = function(id,userName,password,sex,school,major,callback) {
+    let sql = `
+    update
+    ${tableName}
+    set 
+    ${tableName}.userName = ?,
+    ${tableName}.password = ?,
+    ${tableName}.sex = ?,
+    ${tableName}.school = ?,
+    ${tableName}.major = ?
+    where 
+    ${tableName}.id = ?
+    `;
+    pool.getConnection((err,conn)=>{
+        conn.query(sql,[userName,password,sex,school,major,id],(err,data)=>{
+            callback(err,data);
+        })
+        conn.release();
+    });
 }
 
 /**
@@ -45,11 +62,40 @@ User.updateOne = function(findObj,updateObj,callback) {
  * password 用户密码
  * callback用来获取2个值
  */
-
-User.query = function(userName,password,callback) {
-    let sql = `SELECT * FROM  user WHERE binary userName = ? AND binary password = ?`;
+User.queryByUserNameAndPassword = function(email,password,callback) {
+    let sql = `SELECT * FROM  ${tableName} WHERE  ${tableName}.email = ? AND ${tableName}.password = ?`;
     pool.getConnection((err,conn)=>{
-        conn.query(sql,[userName,password],(err,data)=>{
+        conn.query(sql,[email,password],(err,data)=>{
+            callback(err,data);
+        })
+        conn.release();
+    });
+}
+
+/**
+ * 根据邮箱查询用户信息
+ * @param {*} email 
+ * @param {*} callback 
+ */
+User.queryByEmail = function(email,callback) {
+    let sql = `SELECT * FROM  user WHERE binary email = ? `;
+    pool.getConnection((err,conn)=>{
+        conn.query(sql,[email],(err,data)=>{
+            callback(err,data);
+        })
+        conn.release();
+    });
+}
+
+/**
+ * 根据id查询用户信息
+ * @param {*} id 
+ * @param {*} callback 
+ */
+ User.queryById = function(id,callback) {
+    let sql = `SELECT * FROM  ${tableName} WHERE ${tableName}.id = ? `;
+    pool.getConnection((err,conn)=>{
+        conn.query(sql,[id],(err,data)=>{
             callback(err,data);
         })
         conn.release();

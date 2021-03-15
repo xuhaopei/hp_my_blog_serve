@@ -81,6 +81,19 @@ let Handle = {
             conn.release();
         });
     },
+    /**
+     * 查询用户id的所有目录信息
+     * @param {Function} callback      回调函数接收2个参数 
+     */
+    queryByUid(uid,callback){
+        let sql = `SELECT * FROM ${tableName} WHERE id=?`;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,[uid],(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });
+    },
 };
 //Handle.init();
 module.exports = Handle;

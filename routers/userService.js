@@ -8,6 +8,7 @@ const apiRouter = require('./baseRouter');
 const routerPath = apiRouter.userService;
 const router = epxress.Router();
 
+
 router.post(routerPath.find,(req,res,next)=>{
     
     User.query(req.body.username,req.body.password,(err,data)=>{

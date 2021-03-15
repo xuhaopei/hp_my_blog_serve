@@ -5,7 +5,7 @@ const options = {
     host            : 'localhost',
     user            : 'root',
     password        : '123456',
-    database        : 'hp_my_blog',
+    database        : 'notes',
     port            : '3306',
     connectTimeout  : 5000,         // 连接超时时间
     multipleStatements : false,     // 是否允许一个query语句里面包含多条sql语句

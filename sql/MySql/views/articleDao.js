@@ -13,14 +13,15 @@ let Handle = {
      * @param {String} articleAuthor        文章作者
      * @param {String} tags                 标签
      * @param {String} articleContentText   文章text内容
+     * @param {Number} uid                  用户id
      * @param {Function} callback           回调函数接收2个参数 
      */
-    addOne(pid, articleName, articleContent,author,tags,articleContentText,callback) {
+    addOne(pid, articleName, articleContent,author,tags,articleContentText,uid,callback) {
 
-        let sql = `INSERT INTO ${tableName} (pid,articleName,articleContent,author,tags,articleContentText) VALUES (?,?,?,?,?,?)`;
+        let sql = `INSERT INTO ${tableName} (pid,articleName,articleContent,author,tags,articleContentText,uid) VALUES (?,?,?,?,?,?)`;
         pool.getConnection((err,conn)=>{
         
-            conn.query(sql,[pid, articleName, articleContent,author,tags,articleContentText],(err,data)=>{
+            conn.query(sql,[pid, articleName, articleContent,author,tags,articleContentText,uid],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -106,6 +107,20 @@ let Handle = {
         });
     },
     /**
+     * 根据文章ID更新文章点赞
+     * @param {Number} articleId        文章ID
+     * @param {Number} good             阅读次数
+     */
+     updateOneGood(id,good ) {
+        let sql = `UPDATE ${tableName} SET  good= ? WHERE id=?`;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,[good,id],(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });
+    },    
+    /**
      * 根据content,分页模糊查询文章的标题，标签。
      * @param {String} content         
      * @param {Number} pageId 
@@ -131,6 +146,30 @@ let Handle = {
         });        
     },
     /**
+     * 根据content,分页模糊查询文章的标题，标签。
+     * @param {String} content         
+     * @param {Number} pageId 
+     * @param {Function} callback       回调函数接收2个参数 
+     */
+     queryLike(content,pageId,callback) {
+        let start = (pageId-1) * 5;
+        let sql = `
+            SELECT 
+            id,pid,articleName,alertDate,tags 
+            FROM ${tableName} 
+            WHERE CONCAT(IFNULL(articleName,''),IFNULL(tags,'')) 
+            LIKE  ?
+            Order By alertDate Desc
+            limit ?,?
+            `;
+        pool.getConnection((err,conn)=>{
+            conn.query(sql,[`%${content}%`,start,5],(err,data)=>{
+                callback(err,data);
+            })
+            conn.release();
+        });        
+    },    
+    /**
      * 获取文章总数量
      */
     likeQueryAllNumber(content,callback){
@@ -151,7 +190,7 @@ let Handle = {
      * @param {Number} id        文章ID
      * @param {Function} callback       回调函数接收2个参数 
      */
-    query(id, callback) {
+     queryById(id, callback) {
         let sql = `SELECT * FROM  ${tableName} WHERE id='${id}'`;
         pool.getConnection((err,conn)=>{
             conn.query(sql,(err,data)=>{
