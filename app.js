@@ -20,6 +20,25 @@ const userAlter            = require('./routers/user/alter.js');
 const userDelete           = require('./routers/user/delete.js');
 const userQuery            = require('./routers/user/query.js');
 
+const articleAdd              = require('./routers/article/add.js');
+const articleAlter            = require('./routers/article/alter.js');
+const articleDelete           = require('./routers/article/delete.js');
+const articleQuery            = require('./routers/article/query.js');
+
+const calenderplanAdd              = require('./routers/calenderplan/add.js');
+const calenderplanAlter            = require('./routers/calenderplan/alter.js');
+const calenderplanDelete           = require('./routers/calenderplan/delete.js');
+const calenderplanQuery            = require('./routers/calenderplan/query.js');
+
+const commentAdd              = require('./routers/comment/add.js');
+const commentAlter            = require('./routers/comment/alter.js');
+const commentDelete           = require('./routers/comment/delete.js');
+const commentQuery            = require('./routers/comment/query.js');
+
+const directorAdd              = require('./routers/director/add.js');
+const directorAlter            = require('./routers/director/alter.js');
+const directorDelete           = require('./routers/director/delete.js');
+const directorQuery            = require('./routers/director/query.js');
 
 // 引入自己的网络配置文件
 const IpAndPort = require('./net/IpAndPort');
@@ -62,7 +81,25 @@ app.use(userAlter);
 app.use(userDelete);
 app.use(userQuery);
 
+app.use(articleAdd);
+app.use(articleAlter);
+app.use(articleDelete);
+app.use(articleQuery);
 
+app.use(calenderplanAdd);
+app.use(calenderplanAlter);
+app.use(calenderplanDelete);
+app.use(calenderplanQuery);
+
+app.use(commentAdd);
+app.use(commentAlter);
+app.use(commentDelete);
+app.use(commentQuery);
+
+app.use(directorAdd);
+app.use(directorAlter);
+app.use(directorDelete);
+app.use(directorQuery);
 
 // 测试
 

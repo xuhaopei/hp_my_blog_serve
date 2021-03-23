@@ -18,18 +18,19 @@ router.post('/directory/add',(req,res,next)=>{
     else {  
         // 创建目录，顺便更新目录。
         Directory.addOne(
-            data.pid,data.path,data.name,data.articleId,
-            (err,data)=>{
+            data.pid,data.path,data.name,data.articleId,data.uid,
+            (err,newData)=>{
                 if(err) {
                     next(err); 
                 }
                 Directory.updateOne(
-                    data.insertId,
-                    data.path + '/' +  data.insertId,
+                    newData.insertId,
+                    data.path + '/' +  newData.insertId,
                     (err,data)=>{
                         if(err) {
                             next(err); 
                         }
+                        console.log(data)
                         res.status(200);
                         res.json(data);
                     }

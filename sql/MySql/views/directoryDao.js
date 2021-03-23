@@ -1,7 +1,7 @@
 
 const pool = require('../hp_mySql');
 
-const tableName = 'hp_my_blog.directors';
+const tableName = 'notes.directors';
 
 
 let Handle = {
@@ -12,10 +12,10 @@ let Handle = {
      * @param {String} name 
      * @param {Number} articleId 
      */
-    addOne(pid,path,name,articleId,callback) {
-        let sql = `INSERT INTO ${tableName} (pid,path,name,articleId) VALUES (?,?,?,?)`;
+    addOne(pid,path,name,articleId,uid,callback) {
+        let sql = `INSERT INTO ${tableName} (pid,path,name,articleId,uid) VALUES (?,?,?,?,?)`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,[pid,path,name,articleId],(err,data)=>{
+            conn.query(sql,[pid,path,name,articleId,uid],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
@@ -25,14 +25,12 @@ let Handle = {
      * 根据id更新目录或者文章
      * @param {*} id 
      * @param {*} path 
-     * @param {*} name 
-     * @param {*} articleId 
      * @param {*} callback 
      */
-    updateOne(id,path,name,articleId,callback) {
-        let sql = `UPDATE ${tableName} SET  path=?, name=? WHERE id=?`;
+    updateOne(id,path,callback) {
+        let sql = `UPDATE ${tableName} SET  path=? WHERE id=?`;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,[path,name,id],(err,data)=>{
+            conn.query(sql,[path,id],(err,data)=>{
                 callback(err,data);
             })
             conn.release();

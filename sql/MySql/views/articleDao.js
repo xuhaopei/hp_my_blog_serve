@@ -1,7 +1,7 @@
 const pool = require('../hp_mySql');
 
 let format = require('date-format');
-const tableName = 'hp_my_blog.article';
+const tableName = 'notes.article';
 
 
 let Handle = {
@@ -12,16 +12,15 @@ let Handle = {
      * @param {String} articleContent       文章内容
      * @param {String} articleAuthor        文章作者
      * @param {String} tags                 标签
-     * @param {String} articleContentText   文章text内容
      * @param {Number} uid                  用户id
      * @param {Function} callback           回调函数接收2个参数 
      */
-    addOne(pid, articleName, articleContent,author,tags,articleContentText,uid,callback) {
-
-        let sql = `INSERT INTO ${tableName} (pid,articleName,articleContent,author,tags,articleContentText,uid) VALUES (?,?,?,?,?,?)`;
+    addOne(pid, articleName, articleContent,author,tags,uid,callback) {
+        
+        let sql = `INSERT INTO ${tableName} (pid,articleName,articleContent,author,tags,uId) VALUES (?,?,?,?,?,?)`;
         pool.getConnection((err,conn)=>{
         
-            conn.query(sql,[pid, articleName, articleContent,author,tags,articleContentText,uid],(err,data)=>{
+            conn.query(sql,[pid, articleName, articleContent,author,tags,uid],(err,data)=>{
                 callback(err,data);
             })
             conn.release();

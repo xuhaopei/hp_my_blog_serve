@@ -1,6 +1,6 @@
 const pool = require('../hp_mySql');
 
-const tableName = 'hp_my_blog.calenderplan';
+const tableName = 'notes.calenderplan';
 
 
 let Handle = {
