@@ -30,7 +30,6 @@ router.post('/directory/add',(req,res,next)=>{
                         if(err) {
                             next(err); 
                         }
-                        console.log(data)
                         res.status(200);
                         res.json(data);
                     }

@@ -19,14 +19,14 @@ router.post('/comment/add',(req,res,next)=>{
         // 添加评论。
         Comment.addOne(
             data.content, data.aId, data.uId, data.userName, data.path, data.pId,
-            (err,data)=>{
+            (err,data1)=>{
                 if(err){
                     next(err);
                 }
                 // 更新评论，确定评论的path，以便构造树
                 Comment.updateOne(
-                    data.insertId,  // 评论id
-                    data.path + '/' +  data.insertId,
+                    data1.insertId,  // 评论id
+                    data.path + '/' +  data1.insertId,
                     (err,data)=>{
                         if(err) {
                             next(err); 

@@ -17,7 +17,7 @@ router.post('/article/add',(req,res,next)=>{
     }
     else {  
         article.addOne(
-            data.pid, data.articleName, data.articleContent,data.author,data.tags,data.uid,
+            data.pid, data.articleName, data.articleContent,data.author,data.tags,data.uid,data.articleHtml,
             (err,data)=>{
                 if(err) {
                     next(err);

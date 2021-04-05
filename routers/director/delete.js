@@ -9,13 +9,13 @@ const router = epxress.Router();
 /**
  * 删除目录
  */
-router.get('/article/delete',(req,res,next)=>{
+router.get('/director/delete',(req,res,next)=>{
     let data = req.query;
     // 先检查用户权限
     let token = hp_jwt.validateToken(req.headers.token);
     // 判断是否登录
     if(token === null) {
-        res.status(401).send('请您登录,/article/delete');
+        res.status(401).send('请您登录,/director/delete');
     }
     // 判断是否为自己的目录
     else if(token.id === data.uid){  
@@ -24,14 +24,16 @@ router.get('/article/delete',(req,res,next)=>{
             if(err) {
                 next(err); 
             }
-            // 删文章
-            Article.deleteOne(data.articleId,(err,data)=>{
-                res.status(200);
-                res.json(data);
-            })
+            res.status(200);
+            res.json(data);
+            // // 删文章
+            // Article.deleteOne(data.articleId,(err,data)=>{
+            //     res.status(200);
+            //     res.json(data);
+            // })
         })
     } else {
-        res.status(403).send('无权限,/article/delete');
+        res.status(403).send('无权限,/director/delete');
     }
     let array = req.body;
 })

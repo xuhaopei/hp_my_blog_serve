@@ -16,7 +16,7 @@ router.post('/article/update',(req,res,next)=>{
     // 如果是管理员 或者 参数uid与tokenid一致(用户修改自己)
     if(token.authority === 0 || token.id === data.uid) {  
         Article.updateOne(
-            data.id, data.articleName, data.articleContent, data.tags, data.articleContentText,
+            Number(data.id), data.articleName, data.articleContent, data.tags,data.articleHtml,
             (err,data)=>{
                 if(err) {
                     next(err);

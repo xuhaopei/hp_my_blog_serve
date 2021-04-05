@@ -15,8 +15,8 @@ router.post('/directory/update',(req,res,next)=>{
 
     // 参数uid与tokenid一致(用户修改自己)
     if(token.id === data.uid) {  
-        Directory.updateOne(
-            data.id, data.path, data.name,
+        Directory.updateOneName(
+            data.id,  data.name,
             (err,data)=>{
                 if(err) {
                     next(err);
