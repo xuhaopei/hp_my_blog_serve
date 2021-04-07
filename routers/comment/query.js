@@ -9,7 +9,7 @@ const router = epxress.Router();
 router.get('/comment/queryAll',(req,res,next)=>{
     let query = req.query;
 
-    Comment.queryByaId(query.uid,(err,data)=>{
+    Comment.queryByaId(query.aId,(err,data)=>{
         if(err) {
             next(err); 
         }
@@ -48,34 +48,24 @@ module.exports = router;
     let array = [];
     let hadInsert = false;          // 用来判断新的数据是插在目录里面了，还是插在array里
     for (const iterator of newData) {
-        let one;
         hadInsert = false;
-        one = new Comment(iterator.id, iterator.pId, iterator.path, iterator.content, iterator.date, iterator.uId);
+        iterator.childrens = [];
         /**判断one能否插入目录中，不能则插入array */
         for (const parent of array) {
-            if(digui(parent,one)) {
+            if(digui(parent,iterator,false)) {
                 hadInsert = true;
                 break;
             }
         }
         
         if(hadInsert === false) {
-            array.push(one);
+            array.push(iterator);
         }
         
     }
     return array;
 
-    function Comment(id,pId,path,content,date,uId){
-        this.id = id;
-        this.pId = pId;
-        this.path = path;
-        this.content = content;
-        this.date = date;
-        this.uId = uId;
-        this.childrens = [];
-    }
-    function digui(parentObj,sonObj) {
+    function digui(parentObj,sonObj,flag) {
         let parentPath = parentObj.path;                            
         let sonPath = sonObj.path.substring(0,sonObj.path.lastIndexOf('/'));
         let hadInsert = false;
