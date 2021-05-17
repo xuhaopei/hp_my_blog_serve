@@ -119,6 +119,19 @@ let Handle = {
             conn.release();
         });
     },
+    /**
+     * 查询path的所有目录信息
+     */
+    queryByPath(path, callback) {
+        path = '%' + path + '%';
+        let sql = `SELECT * FROM ${tableName} WHERE path like ?`;
+        pool.getConnection((err, conn) => {
+            conn.query(sql, [path], (err, data) => {
+                callback(err, data);
+            })
+            conn.release();
+        });
+    },
 };
 //Handle.init();
 module.exports = Handle;

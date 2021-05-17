@@ -14,12 +14,12 @@ router.post('/calenderplan/update',(req,res,next)=>{
     let token = hp_jwt.validateToken(req.headers.token);
     // 判断是否登录
     if(token === null) {
-        res.status(401).json('请您登录,/article/add');
+        res.status(401).json('无权限');
     }
-    // 判断是否为自己的日记
-    else if(token.id === data.uid) {  
+    
+    else {  
         Calenderplan.editOne(
-            data.id, data.gridData, data.allFinish,
+            data.id, JSON.stringify(data.gridData), data.allFinish,data.date,
             (err,data)=>{
                 if(err) {
                     next(err);
@@ -30,9 +30,7 @@ router.post('/calenderplan/update',(req,res,next)=>{
                 }
             }
         )
-    } else {  // 如果都不是 无权修改
-        res.status(401).json('无权限修改,/calenderplan/update');
-    }
+    } 
 })
 /******************************get请求***************************/
 /**

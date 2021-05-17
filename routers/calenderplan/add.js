@@ -5,19 +5,19 @@ const Calenderplan = require('../../sql/MySql/views/calenderplanDao');
 const router = epxress.Router();
 
 /**post请求**/
-// 添加一篇文章
-router.post('/article/add',(req,res,next)=>{
+// 添加一则计划
+router.post('/calenderplan/add',(req,res,next)=>{
 
     let data = req.body;
     // 先检查用户权限
     let token = hp_jwt.validateToken(req.headers.token);
     // 判断是否登录
     if(token === null) {
-        res.status(401).json('请您登录,/article/add');
+        res.status(401).json('请您登录,/calenderplan/add');
     }
     else {  
         Calenderplan.addOne(
-            data.uid, data.date, data.gridData,
+            token.data.id, data.date, JSON.stringify(data.gridData),
             (err,data)=>{
                 if(err) {
                     next(err);

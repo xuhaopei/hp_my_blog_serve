@@ -21,10 +21,10 @@ User.addOne = function(userName,email,password,sex,school,major,classes,callback
 /**
  * 根据id删除用户
  */
-User.deleteOne = function(id,callback) {
-    let sql = `DELETE FROM ${tableName} WHERE id=?`;
+User.deleteOne = function(ids,callback) {
+    let sql = `DELETE FROM ${tableName} WHERE id in (${ids})`;
     pool.getConnection((err,conn)=>{
-        conn.query(sql,[id],(err,data)=>{
+        conn.query(sql,[],(err,data)=>{
             callback(err,data);
         })
         conn.release();
@@ -55,7 +55,33 @@ User.alertOne = function(id,userName,password,sex,school,major,callback) {
         conn.release();
     });
 }
-
+/**
+ * 修改用户全部信息
+ * 
+ */
+ User.alertOneAll = function(id, authority, _class, email, major, password,school,sex,userName,callback) {
+    let sql = `
+    update
+    ${tableName}
+    set 
+    ${tableName}.authority = ?,
+    ${tableName}.class = ?,
+    ${tableName}.email = ?,
+    ${tableName}.major = ?,
+    ${tableName}.password = ?,
+    ${tableName}.school = ?,
+    ${tableName}.sex = ?,
+    ${tableName}.userName = ?
+    where 
+    ${tableName}.id = ?
+    `;
+    pool.getConnection((err,conn)=>{
+        conn.query(sql,[authority, _class, email, major, password,school,sex,userName,id],(err,data)=>{
+            callback(err,data);
+        })
+        conn.release();
+    });
+}
 /**
  * 根据用户名和密码来查询
  * userName 用户名
@@ -97,6 +123,24 @@ User.queryByEmail = function(email,callback) {
     pool.getConnection((err,conn)=>{
         conn.query(sql,[id],(err,data)=>{
             callback(err,data);
+        })
+        conn.release();
+    });
+}
+
+/**
+ * 分页查询用户
+ */
+User.queryMore = function(start,end,callback) {
+    let sql = `
+    SELECT 
+    *
+    FROM ${tableName} 
+    limit ?,?
+    `;
+    pool.getConnection((err, conn) => {
+        conn.query(sql, [Number(start), Number(end)], (err, data) => {
+            callback(err, data);
         })
         conn.release();
     });

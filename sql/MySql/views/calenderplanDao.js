@@ -5,7 +5,7 @@ const tableName = 'notes.calenderplan';
 
 let Handle = {
     addOne(uid, date, gridData, callback){
-
+        
         let sql = `INSERT INTO ${tableName} (uid,date,gridData) VALUES (?,?,?)`
 
         pool.getConnection((err,conn)=>{
@@ -16,7 +16,7 @@ let Handle = {
         });
     },
 
-    editOne(id, gridData, allFinish, callback) {
+    editOne(id, gridData, allFinish, date, callback) {
         
         let sql = `
         update
@@ -25,10 +25,10 @@ let Handle = {
         ${tableName}.gridData = ?,
         ${tableName}.allFinish = ?
         where 
-        ${tableName}.id = ?
+        ${tableName}.date = ?
         `;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,[gridData, allFinish, id],(err,data)=>{
+            conn.query(sql,[gridData, allFinish, date],(err,data)=>{
                 callback(err,data);
             })
             conn.release();

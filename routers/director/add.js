@@ -1,7 +1,7 @@
 const epxress = require('express');
 const hp_jwt  = require('../../validate/token.js');
 const Directory = require('../../sql/MySql/views/directoryDao');
-
+const maps = require('./map');
 const router = epxress.Router();
 
 /**post请求**/
@@ -23,6 +23,7 @@ router.post('/directory/add',(req,res,next)=>{
                 if(err) {
                     next(err); 
                 }
+                maps.directory_id_uid.set(newData.insertId,token.data.id)
                 Directory.updateOne(
                     newData.insertId,
                     data.path + '/' +  newData.insertId,

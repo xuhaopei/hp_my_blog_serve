@@ -9,6 +9,7 @@ const router = epxress.Router();
 router.post('/article/add',(req,res,next)=>{
 
     let data = req.body;
+
     // 先检查用户权限
     let token = hp_jwt.validateToken(req.headers.token);
     // 判断是否登录
