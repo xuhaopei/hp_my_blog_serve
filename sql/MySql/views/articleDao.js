@@ -66,7 +66,6 @@ let Handle = {
      * 将多条笔记数据同时更新审核情况
      */
     updateOneByCanCross(ids, num, callback) {
-        console.log(ids)
         let sql = `update ${tableName} set ${tableName}.canCross = ?  WHERE id in (${ids})`;
         pool.getConnection((err, conn) => {
             conn.query(sql, [num], (err, data) => {
@@ -121,7 +120,6 @@ let Handle = {
      * 根据文章ID更新文章点赞
      */
     updateOneGood(id, good, callback) {
-        console.log(id, good)
         let sql = `UPDATE ${tableName} SET  good= ? WHERE id=?`;
         pool.getConnection((err, conn) => {
             conn.query(sql, [good, id], (err, data) => {
@@ -251,7 +249,7 @@ let Handle = {
      */
     queryAll(callback) {
         let sql = `SELECT * FROM  ${tableName}   Order By id Desc`;
-        console.log(sql)
+       
         pool.getConnection((err, conn) => {
             conn.query(sql, (err, data) => {
                 callback(err, data);

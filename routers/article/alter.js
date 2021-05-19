@@ -12,7 +12,6 @@ router.post('/article/update',(req,res,next)=>{
     let data = req.body;
     // 先检查用户权限
     let token = hp_jwt.validateToken(req.headers.token);
-
     // 如果是管理员 或者 参数uid与tokenid一致(用户修改自己)
     if(token.data.authority === 1 || token.data.id === data.uid) {  
         Article.updateOne(

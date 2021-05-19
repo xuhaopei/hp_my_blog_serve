@@ -49,6 +49,28 @@ router.get('/user/queryMore', (req, res, next) => {
         }
     })
 })
+// 查询用户信息总数量。
+router.get('/user/querySum',(req,res,next)=>{
+    User.queryMoreSum((err,data)=>{
+        if(err) {
+            next(err); 
+        }
+        else {
+            let token = hp_jwt.validateToken(req.headers.token);
+            if(token && token.data.authority === 1) {
+            } else {
+                data = canCross(data,token);
+            }
+            if(data.length === 0) {
+                res.status(404);
+                res.send('用户不存在,/user/querySum');
+            }
+            res.status(200);
+            res.json(data[0]['COUNT(*)']);
+        }
+    })
+})
+
 /**************************post请求******************************/
 /**
  * 用户登录

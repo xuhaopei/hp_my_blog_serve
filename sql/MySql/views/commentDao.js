@@ -13,7 +13,6 @@ let Handle = {
      * @param {Number} articleId 
      */
     addOne(content, aId, uId, userName, path, pId,callback) {
-        console.log(content, aId, uId, userName, path, pId)
         let sql = `INSERT INTO ${tableName} (aId,uId,userName,content,path,pId) VALUES (?,?,?,?,?,?)`;
         pool.getConnection((err,conn)=>{
             conn.query(sql,[ aId, uId, userName, content, path, pId],(err,data)=>{

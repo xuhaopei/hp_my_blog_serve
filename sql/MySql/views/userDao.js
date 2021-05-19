@@ -145,4 +145,20 @@ User.queryMore = function(start,end,callback) {
         conn.release();
     });
 }
+/**
+ * 查询用户总数量
+ */
+ User.queryMoreSum = function(callback) {
+    let sql = `
+    SELECT 
+    COUNT(*)
+    FROM ${tableName} 
+    `;
+    pool.getConnection((err, conn) => {
+        conn.query(sql, [], (err, data) => {
+            callback(err, data);
+        })
+        conn.release();
+    });
+}
 module.exports = User;
