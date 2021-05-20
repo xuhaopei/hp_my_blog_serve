@@ -10,7 +10,6 @@ router.get('/calenderplan/queryOne',(req,res,next)=>{
     let data = req.query;
     // 先检查用户权限
     let token = hp_jwt.validateToken(req.headers.token);
-    console.log(token)
     // 判断是否登录
     if(token === null) {
         res.status(401).json('请您登录,/calenderplan/queryOne');
@@ -22,6 +21,7 @@ router.get('/calenderplan/queryOne',(req,res,next)=>{
                     next(err); 
                 } 
                 else {
+                    console.log(data)
                     res.status(200);
                     res.json(data[0]);
                 }

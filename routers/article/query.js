@@ -40,11 +40,11 @@ router.get('/article/queryLikeSum',(req,res,next)=>{
             next(err); 
         }
         else {
-            let token = hp_jwt.validateToken(req.headers.token);
-            if(token && token.data.authority === 1) {
-            } else {
-                data = canCross(data,token);
-            }
+            // let token = hp_jwt.validateToken(req.headers.token);
+            // if(token && token.data.authority === 1) {
+            // } else {
+            //     data = canCross(data,token);
+            // }
             if(data.length === 0) {
                 res.status(404);
                 res.send('文章不存在,/article/queryLikeSum');

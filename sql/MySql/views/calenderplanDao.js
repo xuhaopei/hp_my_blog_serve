@@ -25,10 +25,10 @@ let Handle = {
         ${tableName}.gridData = ?,
         ${tableName}.allFinish = ?
         where 
-        ${tableName}.date = ?
+        ${tableName}.id = ?
         `;
         pool.getConnection((err,conn)=>{
-            conn.query(sql,[gridData, allFinish, date],(err,data)=>{
+            conn.query(sql,[gridData, allFinish, id],(err,data)=>{
                 callback(err,data);
             })
             conn.release();
