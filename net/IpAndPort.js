@@ -1,4 +1,4 @@
-const port = 3000;                                           // 本地window
+const port = 5200;                                           // 本地window
 const ip = 'localhost';                                      // 本地window
 
 // const port = 80;                                          // 服务器
