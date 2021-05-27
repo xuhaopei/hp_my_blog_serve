@@ -1,7 +1,7 @@
 
 const pool = require('../hp_mySql');
 
-const tableName = 'notes.Comment';
+const tableName = 'notes.comment';
 
 
 let Handle = {

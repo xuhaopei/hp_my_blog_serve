@@ -16,8 +16,8 @@ router.post('/user/alertAll',(req,res,next)=>{
     if(token === null) {
         res.status(401).json('请您登录,/user/alert');
     }
-    // 如果是管理员 或者 参数id与tokenid一致(用户修改自己)
-    else if(token.data.authority == 1 || token.data.id == data.id) {  
+    // 如果是管理员
+    else if(token.data.authority == 1) {  
         User.alertOneAll(
             data.id, data.authority, data.class, data.email, JSON.stringify(data.major), data.password,JSON.stringify(data.school),data.sex,data.userName,
             (err,data)=>{
@@ -28,6 +28,18 @@ router.post('/user/alertAll',(req,res,next)=>{
             }
         )
     } 
+    // 如果是用户自己 参数id与tokenid一致(用户修改自己)
+    else if(token.data.id == data.id) {
+        User.alertOne(
+            data.id, data.class, data.email, JSON.stringify(data.major), data.password,JSON.stringify(data.school),data.sex,data.userName,
+            (err,data)=>{
+                if(err) {
+                    next(err);
+                }
+                res.status(200).json(data);
+            }
+        )        
+    }
     // 如果都不是 无权修改
     else {  
         res.status(403).json('无权限修改,/user/register');

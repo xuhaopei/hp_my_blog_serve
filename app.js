@@ -39,7 +39,7 @@ const IpAndPort = require('./net/IpAndPort');
 app.use(bodyParser.json({
     "limit": "10000kb"
 }));     
-//app.use(cors());
+app.use(cors());
 
 
 

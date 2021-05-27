@@ -35,21 +35,23 @@ User.deleteOne = function(ids,callback) {
  * 修改用户信息
  * 
  */
-User.alertOne = function(id,userName,password,sex,school,major,callback) {
+User.alertOne = function(id, _class, email, major, password,school,sex,userName,callback) {
     let sql = `
     update
     ${tableName}
     set 
-    ${tableName}.userName = ?,
+    ${tableName}.class = ?,
+    ${tableName}.email = ?,
+    ${tableName}.major = ?,
     ${tableName}.password = ?,
-    ${tableName}.sex = ?,
     ${tableName}.school = ?,
-    ${tableName}.major = ?
+    ${tableName}.sex = ?,
+    ${tableName}.userName = ?
     where 
     ${tableName}.id = ?
     `;
     pool.getConnection((err,conn)=>{
-        conn.query(sql,[userName,password,sex,school,major,id],(err,data)=>{
+        conn.query(sql,[_class, email, major, password,school,sex,userName,id],(err,data)=>{
             callback(err,data);
         })
         conn.release();
