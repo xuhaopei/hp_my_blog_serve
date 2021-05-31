@@ -51,11 +51,27 @@ let Handle = {
         });
     },
     /**
-     * 根据id删除目录或者文章
+     * 根据id删除目录
      * @param {*} id 
      */
     deleteOne(id, callback) {
-        var id = '%' + id + '%';
+
+        pool.getConnection((err, conn) => {
+
+            let sql = `DELETE FROM ${tableName} WHERE id = ?`;
+
+            conn.query(sql, [id], (err, data) => {
+                callback(err, data);
+            })
+            conn.release();
+        });
+    },
+    /**
+     * 根据id模糊删除目录里的文章
+     * @param {*} id 
+     */
+    deleteArticles(id, callback) {
+        var id = '%/' + id + '/%';          // 加“/”很重要避免删除其它的目录。
 
         pool.getConnection((err, conn) => {
 
@@ -123,7 +139,7 @@ let Handle = {
      * 查询path的所有目录信息
      */
     queryByPath(path, callback) {
-        path = '%' + path + '%';
+        path = '%/' + path + '/%';
         let sql = `SELECT * FROM ${tableName} WHERE path like ?`;
         pool.getConnection((err, conn) => {
             conn.query(sql, [path], (err, data) => {

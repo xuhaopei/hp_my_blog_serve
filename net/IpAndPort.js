@@ -1,7 +1,6 @@
-// const port = 5200;                                           // 本地window
-// const ip = 'localhost';                                      // 本地window
-const port = 5200;                                          // 服务器
-const ip = '106.75.167.111'                                // 服务器
+const os = require('os');
+const ip = os.platform() === 'win32' ? 'localhost':'106.75.167.111'; 
+const port = 5200;                                         
 
 exports.port = port;
 exports.ip = ip;
